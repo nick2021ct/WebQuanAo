@@ -68,5 +68,26 @@ class VoucherController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    public function update(Request $request, Voucher $voucher)
+    {
+        $request->validate([
+            'name' => 'required',
+            'code' => 'required',
+            'dateStart' => 'required',
+            'dateEnd' => 'required',
+            'number' => 'required',
+            'value' => 'required',
+        ]);
+        $voucher->fill([
+            'name' => $request->name,
+            'code' => $request->code,
+            'dateStart' => $request->dateStart,
+            'dateEnd' => $request->dateEnd,
+            'number' => $request->number,
+            'value' => $request->value,
+        ])->save();
+        toastr()->success('Successfully', 'Updated voucher');
+        return redirect()->route('voucher.index');
+    }
 
 }
