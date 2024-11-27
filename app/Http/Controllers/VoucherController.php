@@ -89,5 +89,13 @@ class VoucherController extends Controller
         toastr()->success('Successfully', 'Updated voucher');
         return redirect()->route('voucher.index');
     }
-
+       /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Voucher $voucher)
+    {
+        $voucher->delete();
+        toastr()->success('Successfully', 'Deleted voucher');
+        return redirect()->route('voucher.index');
+    }
 }
