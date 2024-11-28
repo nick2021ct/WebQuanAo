@@ -18,4 +18,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/view-cart', [OrderController::class, 'viewCart'])->name('viewCart');
 
