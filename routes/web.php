@@ -19,4 +19,6 @@ Route::get('/', function () {
 });
 
 Route::get('/view-cart', [OrderController::class, 'viewCart'])->name('viewCart');
+Route::get('/check-out', [OrderController::class, 'getFormCheckOut'])->name('checkOut');
+Route::get('/complete-payment', [OrderController::class, 'completePayment'])->name('completePayment');
 
