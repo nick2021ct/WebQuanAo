@@ -80,37 +80,37 @@ class OrderController extends Controller
         }
         return redirect()->route('viewCart')->with('success', 'Cart updated');
     }
-    public function discountCode(Request $request)
-    {
-        //Check code nhập vào có tồn tại hay không
-        $voucher = Voucher::where('code', $request->code)->first();
-        //nếu tồn tại
-        if (!is_null($voucher)) {
-            //Check số lượng code còn hay không
-            if ($voucher->number > 0) {
-                //Check ngày bắt đầu và ngày kết thúc code 
-                $nowDay = Carbon::now('Asia/Ho_Chi_Minh');
-                if ($nowDay >= $voucher->dateStart && $nowDay < $voucher->dateEnd) {
-                    $user = Auth::user();
-                    $carts = Cart::where('idUser', $user->id)->where('idOrder', null)->get();
-                    $carts->load('product');
-                    $totalBill = 0;
-                    foreach ($carts as $cart) {
-                        $totalBill += $cart->qty * $cart->product->priceSale;
-                    }
-                    // Voucher::where('code', $request->code)->update(['number' => $voucher->number - 1]);
-                    $request->session()->put('voucher_code', $request->code);
-                    return view('order.checkOut', compact('user', 'carts', 'voucher', 'totalBill'));
-                } else {
-                    return redirect()->route('checkOut')->with('error', 'Code has expired');
-                }
-            } else {
-                return redirect()->route('checkOut')->with('error', 'Code has expired');
-            }
-        } else {
-            return redirect()->route('checkOut')->with('error', 'Code does not exist');
-        }
-    }
+    // public function discountCode(Request $request)
+    // {
+    //     //Check code nhập vào có tồn tại hay không
+    //     $voucher = Voucher::where('code', $request->code)->first();
+    //     //nếu tồn tại
+    //     if (!is_null($voucher)) {
+    //         //Check số lượng code còn hay không
+    //         if ($voucher->number > 0) {
+    //             //Check ngày bắt đầu và ngày kết thúc code 
+    //             $nowDay = Carbon::now('Asia/Ho_Chi_Minh');
+    //             if ($nowDay >= $voucher->dateStart && $nowDay < $voucher->dateEnd) {
+    //                 $user = Auth::user();
+    //                 $carts = Cart::where('idUser', $user->id)->where('idOrder', null)->get();
+    //                 $carts->load('product');
+    //                 $totalBill = 0;
+    //                 foreach ($carts as $cart) {
+    //                     $totalBill += $cart->qty * $cart->product->priceSale;
+    //                 }
+    //                 // Voucher::where('code', $request->code)->update(['number' => $voucher->number - 1]);
+    //                 $request->session()->put('voucher_code', $request->code);
+    //                 return view('order.checkOut', compact('user', 'carts', 'voucher', 'totalBill'));
+    //             } else {
+    //                 return redirect()->route('checkOut')->with('error', 'Code has expired');
+    //             }
+    //         } else {
+    //             return redirect()->route('checkOut')->with('error', 'Code has expired');
+    //         }
+    //     } else {
+    //         return redirect()->route('checkOut')->with('error', 'Code does not exist');
+    //     }
+    // }
     public function getFormCheckOut()
     {
         $user = Auth::user();
