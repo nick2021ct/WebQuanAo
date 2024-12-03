@@ -30,7 +30,7 @@ class ProductController extends Controller
                     break;
                 }
             }
-            //tính tổng số lượng sản phẩm theo size hiện có
+            ///// tính tổng số lượng sản phẩm theo size hiện có
             $product->number = $product->size->S + $product->size->M + $product->size->L + $product->size->XL + $product->size->XXL + $product->size->XXXL;
             //hiển thị size đang còn của sản phẩm
             $product->sizeShow = '';
