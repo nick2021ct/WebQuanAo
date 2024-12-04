@@ -61,5 +61,11 @@ class BannerController extends Controller
         toastr()->success('Successfully', 'Updated banner');
         return redirect()->route('banner.index');
     }
+    public function destroy(Banner $banner)
+    {
+        $banner->delete();
+        toastr()->success('Successfully', 'Deleted banner');
+        return redirect()->route('banner.index');
+    }
 
 }
