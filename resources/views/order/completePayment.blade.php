@@ -9,7 +9,7 @@
                         <h4>Check Out</h4>
                         <div class="breadcrumb__links">
                             <a href="/">Trang chủ</a>
-                            <a href="">Sản phẩm</a>
+                            <a href="{{ route('listProduct') }}">Sản phẩm</a>
                             <span>Đặt hàng thành công</span>
                         </div>
                     </div>

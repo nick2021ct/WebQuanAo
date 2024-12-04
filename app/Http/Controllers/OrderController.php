@@ -32,7 +32,6 @@ class OrderController extends Controller
         }
 
         foreach ($carts as $cart) {
-        //TH sản phẩm trong giỏ cùng loại với sản phẩm vừa thêm
         if ($cart->idProduct == $idProduct && $cart->size == $request->size) {
             Cart::where('id', $cart->id)->update(['qty' => $cart->qty + $request->qty]);
             $check = false;
@@ -93,13 +92,9 @@ class OrderController extends Controller
 
     public function discountCode(Request $request)
     {
-        //Check code nhập vào có tồn tại hay không
         $voucher = Voucher::where('code', $request->code)->first();
-        //nếu tồn tại
         if (!is_null($voucher)) {
-            //Check số lượng code còn hay không
             if ($voucher->number > 0) {
-                //Check ngày bắt đầu và ngày kết thúc code 
                 $nowDay = Carbon::now();
                 if ($nowDay >= $voucher->dateStart && $nowDay < $voucher->dateEnd) {
                     $user = Auth::user();
@@ -121,6 +116,68 @@ class OrderController extends Controller
         } else {
             return redirect()->route('checkOut')->with('error', 'Code does not exist');
         }
+    }
+
+    public function getFormCheckOut()
+    {
+        $user = Auth::user();
+        $carts = Cart::where('idUser', $user->id)->where('idOrder', null)->get();
+        $carts->load('product');
+        $totalBill = 0;
+        foreach ($carts as $cart) {
+            $totalBill += $cart->qty * $cart->product->priceSale;
+        }
+        return view('order.checkOut', compact('user', 'carts', 'totalBill'));
+    }
+
+    public function submitFormCheckOut(Request $request)
+    {
+        $data = [
+            'idUser' => Auth::user()->id,
+            'total' => $request->total,
+            'paymentMethod' => $request->paymentMethod,
+            'status' => 1,
+            'pay' => 0
+        ];
+        if ($request->orderId) {
+            $order = Order::find($request->orderId);
+            // dd($order);
+        } else {
+            $order = Order::create($data);
+        }
+        Cart::where('idOrder', null)->where('idUser', $order->idUser)->update([
+            'idOrder' => $order->id
+        ]);
+
+       
+    }
+
+    public function completePayment(Request $request)
+    {
+
+        if ($request->payment != null && $request->payment == 0) {
+            $idOrder = $request->idOrder;
+            Order::where('id', $idOrder)->update(['pay' => 1]);
+            $carts = Cart::where('idOrder', $idOrder)->get();
+        
+            foreach ($carts as $cart) {
+                $product = Product::with('size')->findOrFail($cart->idProduct);
+
+                $sizeColumn = strtoupper($cart->size); 
+                if (isset($product->size->{$sizeColumn}) && $product->size->{$sizeColumn} >= $cart->qty) {
+                    $product->size->{$sizeColumn} -= $cart->qty;
+                    $product->save(); 
+                    return view('order.completePayment');
+                } else {
+                    toastr()->error('Sản phẩm nhiều hơn kho hàng','Error');
+                    return redirect()->back();
+                }
+            }
+        
+        }
+       
+
+        return redirect('/')->with('error', 'Error in service fee payment process');
     }
    
 }
