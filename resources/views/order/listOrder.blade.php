@@ -111,6 +111,7 @@
                                                             name="paymentMethod">
                                                         <button type="submit" class="primary-btn" name="redirect">Thanh
                                                             toán</button>
+                                                            {{-- / --}}
                                                     </form>
                                                 </div>
                                             @endif
