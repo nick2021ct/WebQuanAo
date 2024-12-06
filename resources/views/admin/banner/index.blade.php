@@ -48,18 +48,7 @@
                                                     width="60" alt="">
                                             </td>
                                             <td class="border-bottom-0" style="display: flex;">
-                                                @can('updateBanner')
-                                                    <a href="{{ route('banner.edit', $banner->id) }}"><button type="submit"
-                                                            class="btn btn-info m-1">Chỉnh sửa</button></a>
-                                                @endcan
-                                                @can('deleteBanner')
-                                                    <form action="{{ route('banner.destroy', $banner->id) }}" method="post">
-                                                        @method('DELETE')
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-danger m-1"
-                                                            onclick="return deleteConfirmation()">Xóa</button>
-                                                    </form>
-                                                @endcan
+                                             
                                             </td>
                                         </tr>
                                         @php

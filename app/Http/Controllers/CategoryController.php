@@ -90,6 +90,6 @@ class CategoryController extends Controller
         //khôi phục tất cả sản phẩm thuộc danh mục bị xóa
         Product::where('idCategory', $idCategory)->restore();
         toastr()->success('Successfully', 'Restored category');
-        return redirect()->route('category.index');
+        
     }
 }
