@@ -29,3 +29,6 @@ Route::get('/detail-product/{id}', [HomeController::class, 'detailProduct'])->na
 Route::get('/list-product-by-category/{id}', [HomeController::class, 'listProductByCategory'])->name('listProductByCategory');
 Route::get('/list-product-by-brand/{id}', [HomeController::class, 'listProductByBrand'])->name('listProductByBrand');
 Route::get('/search-product', [HomeController::class, 'searchProduct'])->name('searchProduct');
+
+Route::get('admin/login', [AccountControllerAdmin::class, 'getFormLogin'])->name('adminLogin');
+Route::post('admin/login', [AccountControllerAdmin::class, 'submitFormLogin'])->name('adminLogin');
