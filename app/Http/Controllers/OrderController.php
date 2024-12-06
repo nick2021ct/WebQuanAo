@@ -111,17 +111,17 @@ class OrderController extends Controller
     //         return redirect()->route('checkOut')->with('error', 'Code does not exist');
     //     }
     // }
-    public function getFormCheckOut()
-    {
-        $user = Auth::user();
-        $carts = Cart::where('idUser', $user->id)->where('idOrder', null)->get();
-        $carts->load('product');
-        $totalBill = 0;
-        foreach ($carts as $cart) {
-            $totalBill += $cart->qty * $cart->product->priceSale;
-        }
-        return view('order.checkOut', compact('user', 'carts', 'totalBill'));
-    }
+    // public function getFormCheckOut()
+    // {
+    //     $user = Auth::user();
+    //     $carts = Cart::where('idUser', $user->id)->where('idOrder', null)->get();
+    //     $carts->load('product');
+    //     $totalBill = 0;
+    //     foreach ($carts as $cart) {
+    //         $totalBill += $cart->qty * $cart->product->priceSale;
+    //     }
+    //     return view('order.checkOut', compact('user', 'carts', 'totalBill'));
+    // }
     public function submitFormCheckOut(Request $request)
     {
         //xử lí thêm đơn hàng

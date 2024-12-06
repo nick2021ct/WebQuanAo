@@ -90,7 +90,7 @@
                         </div>
                     </div>
                     <div class="col-lg-4">
-                
+                {{-- / --}}
                         <div class="cart__total">
                             <h6>Đơn hàng</h6>
                             <ul>

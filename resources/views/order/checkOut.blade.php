@@ -21,7 +21,7 @@
         </div>
     </section>
     <!-- Breadcrumb Section End -->
-
+{{--  --}}
     <!-- Checkout Section Begin -->
     <section class="checkout spad">
         <div class="container">
