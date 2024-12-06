@@ -34,5 +34,7 @@ Route::get('admin/login', [AccountControllerAdmin::class, 'getFormLogin'])->name
 Route::post('admin/login', [AccountControllerAdmin::class, 'submitFormLogin'])->name('adminLogin');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'AdminLogin'], function () {
-    
+    Route::get('/product', [ProductController::class, 'index'])->middleware('can:showProduct')->name('product.index');
+    Route::get('/product/create', [ProductController::class, 'create'])->middleware('can:addProduct')->name('product.create');
+    Route::post('/product', [ProductController::class, 'store'])->middleware('can:addProduct')->name('product.store');
 })
