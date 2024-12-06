@@ -23,3 +23,9 @@ Route::get('/login', [AccountController::class, 'getFormLogin'])->name('login');
 Route::post('/login', [AccountController::class, 'submitFormLogin'])->name('login');
 
 Route::get('/logout', [AccountController::class, 'logout'])->name('logout');
+    
+Route::get('/list-product', [HomeController::class, 'listProduct'])->name('listProduct');
+Route::get('/detail-product/{id}', [HomeController::class, 'detailProduct'])->name('detailProduct');
+Route::get('/list-product-by-category/{id}', [HomeController::class, 'listProductByCategory'])->name('listProductByCategory');
+Route::get('/list-product-by-brand/{id}', [HomeController::class, 'listProductByBrand'])->name('listProductByBrand');
+Route::get('/search-product', [HomeController::class, 'searchProduct'])->name('searchProduct');
