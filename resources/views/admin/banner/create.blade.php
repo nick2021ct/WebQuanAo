@@ -23,7 +23,9 @@
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Hình ảnh</label>
                                 <input type="file" name="image" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                               
+                                @error('image')
+                                <div id="emailHelp" class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                             <button type="submit" class="btn btn-primary">Cập nhật</button>
                         </form>
@@ -33,4 +35,5 @@
         </div>
     </div>
 </div>
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 @endsection
