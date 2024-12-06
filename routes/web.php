@@ -32,3 +32,7 @@ Route::get('/search-product', [HomeController::class, 'searchProduct'])->name('s
 
 Route::get('admin/login', [AccountControllerAdmin::class, 'getFormLogin'])->name('adminLogin');
 Route::post('admin/login', [AccountControllerAdmin::class, 'submitFormLogin'])->name('adminLogin');
+
+Route::group(['prefix' => 'admin', 'middleware' => 'AdminLogin'], function () {
+    
+})
