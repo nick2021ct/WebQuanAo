@@ -16,3 +16,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+// loggin out user
+Route::get('/login', [AccountController::class, 'getFormLogin'])->name('login');
+Route::post('/login', [AccountController::class, 'submitFormLogin'])->name('login');
+
+Route::get('/logout', [AccountController::class, 'logout'])->name('logout');
