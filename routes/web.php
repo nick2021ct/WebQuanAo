@@ -88,24 +88,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'AdminLogin'], function () {
     Route::get('/dashboard', [DashboardController::class, 'chart_dashboard'])->name('admin.dashboard');
     Route::post('/filter-by-date', [DashboardController::class, 'filter_by_date'])->name('filter_by_date');
     //Category Management
-    // Route::resource('/category', CategoryController::class)->middleware('can:showCategory');
-    Route::get('/category', [CategoryController::class, 'index'])->middleware('can:showCategory')->name('category.index');
-    Route::get('/category/create', [CategoryController::class, 'create'])->middleware('can:addCategory')->name('category.create');
-    Route::post('/category', [CategoryController::class, 'store'])->middleware('can:addCategory')->name('category.store');
-    Route::get('/category/{category}/edit', [CategoryController::class, 'edit'])->middleware('can:updateCategory')->name('category.edit');
-    Route::put('/category/{category}', [CategoryController::class, 'update'])->middleware('can:updateCategory')->name('category.update');
-    Route::delete('/category/{category}', [CategoryController::class, 'destroy'])->middleware('can:deleteCategory')->name('category.destroy');
-    Route::get('/category-restore/{id}', [CategoryController::class, 'restore'])->middleware('can:deleteCategory')->name('admin.category.restore');
-    // Blog  Management
-    Route::get('/blog', [BlogControllerAdmin::class, 'index'])->middleware('can:showBlog')->name('blog.index');
-    Route::get('/blog/create', [BlogControllerAdmin::class, 'create'])->middleware('can:addBlog')->name('blog.create');
-    Route::post('/blog', [BlogControllerAdmin::class, 'store'])->middleware('can:addBlog')->name('blog.store');
-    Route::get('/blog/{blog}/edit', [BlogControllerAdmin::class, 'edit'])->middleware('can:updateBlog')->name('blog.edit');
-    Route::put('/blog/{blog}', [BlogControllerAdmin::class, 'update'])->middleware('can:updateBlog')->name('blog.update');
-    Route::delete('/blog/{blog}', [BlogControllerAdmin::class, 'destroy'])->middleware('can:deleteBlog')->name('blog.destroy');
-    Route::get('/blog-restore/{id}', [BlogControllerAdmin::class, 'restore'])->middleware('can:deleteBlog')->name('admin.blog.restore');
-    //Brand Management
-  
     //Product Management
     // Route::resource('/product', ProductController::class)->middleware('can:showProduct');
     Route::get('/product', [ProductController::class, 'index'])->middleware('can:showProduct')->name('product.index');
