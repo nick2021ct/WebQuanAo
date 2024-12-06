@@ -66,7 +66,7 @@ class VoucherController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update Voucher
      */
     public function update(Request $request, Voucher $voucher)
     {
