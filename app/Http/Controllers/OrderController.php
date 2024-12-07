@@ -80,14 +80,14 @@ class OrderController extends Controller
         }
         return redirect()->route('viewCart')->with('success', 'Cart updated');
     }
-    // public function discountCode(Request $request)
-    // {
-    //     //Check code nhập vào có tồn tại hay không
-    //     $voucher = Voucher::where('code', $request->code)->first();
-    //     //nếu tồn tại
-    //     if (!is_null($voucher)) {
-    //         //Check số lượng code còn hay không
-    //         if ($voucher->number > 0) {
+    public function discountCode(Request $request)
+    {
+        //Check code nhập vào có tồn tại hay không
+        $voucher = Voucher::where('code', $request->code)->first();
+        //nếu tồn tại
+        if (!is_null($voucher)) {
+            //Check số lượng code còn hay không
+            if ($voucher->number > 0) {
     //             //Check ngày bắt đầu và ngày kết thúc code 
     //             $nowDay = Carbon::now('Asia/Ho_Chi_Minh');
     //             if ($nowDay >= $voucher->dateStart && $nowDay < $voucher->dateEnd) {
@@ -111,17 +111,17 @@ class OrderController extends Controller
     //         return redirect()->route('checkOut')->with('error', 'Code does not exist');
     //     }
     // }
-    // public function getFormCheckOut()
-    // {
-    //     $user = Auth::user();
-    //     $carts = Cart::where('idUser', $user->id)->where('idOrder', null)->get();
-    //     $carts->load('product');
-    //     $totalBill = 0;
-    //     foreach ($carts as $cart) {
-    //         $totalBill += $cart->qty * $cart->product->priceSale;
-    //     }
-    //     return view('order.checkOut', compact('user', 'carts', 'totalBill'));
-    // }
+    public function getFormCheckOut()
+    {
+        $user = Auth::user();
+        $carts = Cart::where('idUser', $user->id)->where('idOrder', null)->get();
+        $carts->load('product');
+        $totalBill = 0;
+        foreach ($carts as $cart) {
+            $totalBill += $cart->qty * $cart->product->priceSale;
+        }
+        return view('order.checkOut', compact('user', 'carts', 'totalBill'));
+    }
     public function submitFormCheckOut(Request $request)
     {
         //xử lí thêm đơn hàng
