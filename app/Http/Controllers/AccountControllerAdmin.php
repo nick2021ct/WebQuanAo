@@ -93,6 +93,7 @@ class AccountControllerAdmin extends Controller
         $user = User::findOrFail($id);
         return view('admin.account.edit', compact('user'));
     }
+    //update account
     public function update($id, Request $request)
     {
         $request->validate([
