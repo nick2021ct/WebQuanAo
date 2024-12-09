@@ -24,8 +24,9 @@ class VoucherController extends Controller
         return view('admin.voucher.create');
     }
 
+   
     /**
-     * Store a newly created resource in storage.
+     * Storeee a newly created resource in storage.
      */
     public function store(Request $request)
     {
@@ -48,7 +49,6 @@ class VoucherController extends Controller
         toastr()->success('Successfully', 'Added voucher');
         return redirect()->route('voucher.index');
     }
-
     /**
      * Display the specified resource.
      */
