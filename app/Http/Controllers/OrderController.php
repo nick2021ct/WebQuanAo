@@ -102,15 +102,21 @@ class OrderController extends Controller
     //                 $request->session()->put('voucher_code', $request->code);
     //                 return view('order.checkOut', compact('user', 'carts', 'voucher', 'totalBill'));
     //             } else {
-    //                 return redirect()->route('checkOut')->with('error', 'Code has expired');
-    //             }
-    //         } else {
-    //             return redirect()->route('checkOut')->with('error', 'Code has expired');
-    //         }
-    //     } else {
-    //         return redirect()->route('checkOut')->with('error', 'Code does not exist');
-    //     }
-    // }
+/////////////////////////////////////////
+/////////////////////////////////////////
+/////////////////////////////////
+///////////////////////////////////
+//////////////////////////////////
+/-/
+/
+/
+/
+/
+/
+/
+/-/-/
+/
+
     public function getFormCheckOut()
     {
         $user = Auth::user();
