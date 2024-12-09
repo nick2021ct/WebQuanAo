@@ -12,13 +12,6 @@ class BannerController extends Controller
         $banners = Banner::all();
         return view('admin.banner.index', compact('banners'));
     }
-// sssssssssssssssssssssssssssss
-// sssssssssssssssssssssssssssss
-// /sssssssssssssssssssssssssssss
-// sssssssssssssssssssssssssssss
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('admin.banner.create');
@@ -72,3 +65,7 @@ class BannerController extends Controller
     }
 
 }
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
