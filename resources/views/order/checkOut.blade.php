@@ -97,13 +97,13 @@
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
-                                <div class="checkout__input__checkbox">
+                                {{-- <div class="checkout__input__checkbox">
                                     <label for="paypal">
                                         Thanh toán với VNPay
                                         <input type="radio" id="paypal" name="paymentMethod" value="1">
                                         <span class="checkmark"></span>
                                     </label>
-                                </div>
+                                </div> --}}
                                 <button type="submit" class="site-btn" name="redirect">Thanh toán</button>
                             </div>
                         </div>
