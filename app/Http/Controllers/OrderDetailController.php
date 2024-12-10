@@ -24,4 +24,12 @@ class OrderDetailController extends Controller
         $user = User::where('id', $order->idUser)->first();
         return view('order.detailOrder', compact('user', 'products', 'order'));
     }
+    public function updateStatusOrder($id){
+
+        $bill = Order::find($id);
+        $bill->status = 6;
+        $bill->save();
+        toastr()->success('Huỷ đơn thành công', 'Updates order');
+        return redirect()->back();
+    }
 }

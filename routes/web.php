@@ -33,3 +33,4 @@ Route::get('/about', [AboutController::class, 'index'])->name('about');
 
 Route::get('/order', [OrderController::class, 'listOrder'])->name('listOrder');
 Route::get('/order-detail/{id}', [OrderController::class, 'detailOrder'])->name('detailOrder');
+Route::get('/order-change-status/{id}',[OrderController::class,'updateStatusOrder'])->name('updateStatusOrder');
