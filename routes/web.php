@@ -29,3 +29,4 @@ Route::get('/check-out', [OrderController::class, 'getFormCheckOut'])->name('che
 Route::post('/check-out', [OrderController::class, 'submitFormCheckOut'])->name('checkOut');
 Route::get('/complete-payment', [OrderController::class, 'completePayment'])->name('completePayment');
 
+Route::get('/about', [AboutController::class, 'index'])->name('about');
