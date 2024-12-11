@@ -88,34 +88,21 @@ class OrderController extends Controller
         if (!is_null($voucher)) {
             //Check số lượng code còn hay không
             if ($voucher->number > 0) {
-    //             //Check ngày bắt đầu và ngày kết thúc code 
-    //             $nowDay = Carbon::now('Asia/Ho_Chi_Minh');
-    //             if ($nowDay >= $voucher->dateStart && $nowDay < $voucher->dateEnd) {
-    //                 $user = Auth::user();
-    //                 $carts = Cart::where('idUser', $user->id)->where('idOrder', null)->get();
-    //                 $carts->load('product');
-    //                 $totalBill = 0;
-    //                 foreach ($carts as $cart) {
-    //                     $totalBill += $cart->qty * $cart->product->priceSale;
-    //                 }
-    //                 // Voucher::where('code', $request->code)->update(['number' => $voucher->number - 1]);
-    //                 $request->session()->put('voucher_code', $request->code);
-    //                 return view('order.checkOut', compact('user', 'carts', 'voucher', 'totalBill'));
-    //             } else {
-/////////////////////////////////////////
-/////////////////////////////////////////
-/////////////////////////////////
-///////////////////////////////////
-//////////////////////////////////
-/-/
-/
-/
-/
-/
-/
-/
-/-/-/
-/
+                //Check ngày bắt đầu và ngày kết thúc code 
+                $nowDay = Carbon::now('Asia/Ho_Chi_Minh');
+                if ($nowDay >= $voucher->dateStart && $nowDay < $voucher->dateEnd) {
+                    $user = Auth::user();
+                    $carts = Cart::where('idUser', $user->id)->where('idOrder', null)->get();
+                    $carts->load('product');
+                    $totalBill = 0;
+                    foreach ($carts as $cart) {
+                        $totalBill += $cart->qty * $cart->product->priceSale;
+                    }
+                    // Voucher::where('code', $request->code)->update(['number' => $voucher->number - 1]);
+                    $request->session()->put('voucher_code', $request->code);
+                    return view('order.checkOut', compact('user', 'carts', 'voucher', 'totalBill'));
+                } else {
+
 
     public function getFormCheckOut()
     {
@@ -193,6 +180,24 @@ class OrderController extends Controller
             $query = "";
             $i = 0;
             $hashdata = "";
+            foreach ($inputData as $key => $value) {
+                if ($i == 1) {
+                    $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+                } else {
+                    $hashdata .= urlencode($key) . "=" . urlencode($value);
+                    $i = 1;
+                }
+                $query .= urlencode($key) . "=" . urlencode($value) . '&';
+            }
+            foreach ($inputData as $key => $value) {
+                if ($i == 1) {
+                    $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+                } else {
+                    $hashdata .= urlencode($key) . "=" . urlencode($value);
+                    $i = 1;
+                }
+                $query .= urlencode($key) . "=" . urlencode($value) . '&';
+            }
             foreach ($inputData as $key => $value) {
                 if ($i == 1) {
                     $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
