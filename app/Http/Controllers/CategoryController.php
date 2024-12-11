@@ -72,6 +72,28 @@ class CategoryController extends Controller
         toastr()->success('Successfully', 'Updated category');
         return redirect()->route('category.index');
     }
+    public function update(Request $request, Category $category)
+    {
+        $request->validate([
+            'name' => 'required',
+        ]);
+        $category->fill([
+            'name' => $request->name,
+            'description' => $request->description
+        ])->save();
+        toastr()->success('Successfully', 'Updated category');
+        return redirect()->route('category.index');
+        public function update(Request $request, Category $category)
+        {
+            $request->validate([
+                'name' => 'required',
+            ]);
+            $category->fill([
+                'name' => $request->name,
+                'description' => $request->description
+            ])->save();
+            toastr()->success('Successfully', 'Updated category');
+            return redirect()->route('category.index');
 
     /**
      * Remove the specified resource from storage.
