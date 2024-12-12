@@ -13,23 +13,7 @@
                     </div>
                     <div class="header__top__links">
                         {{-- <a href="#">FAQs</a> --}}
-                        @if (Auth::check())
-                            <div class="header__top__hover">
-                                <span>Hi, {{ Auth::user()->username }} <i class="arrow_carrot-down"></i></span>
-                                <ul class="text-center">
-                                    <a href="{{ route('logout') }}">
-                                        <li>Đăng xuất</li>
-                                    </a>
-                                    @if (Auth::user()->role == 1)
-                                        <a href="{{ route('admin.dashboard') }}">
-                                            <li>Quản trị</li>
-                                        </a>
-                                    @endif
-                                </ul>
-                            </div>
-                        @else
-                            <a href="{{ route('login') }}">Đăng nhập</a>
-                        @endif
+                     
                     </div>
                 </div>
             </div>
