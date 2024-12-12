@@ -40,30 +40,47 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach ($bills as $index => $bill)
                                         <tr>
                                             <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0"></h6>
+                                                <h6 class="fw-semibold mb-0">{{ $index + 1}}</h6>
                                             </td>
                                             <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal"></p>
+                                                <p class="mb-0 fw-normal">{{ $bill->user->fullname }}</p>
                                             </td>
                                             <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal"></p>
+                                                <p class="mb-0 fw-normal">{{ $bill->user->address }}</p>
                                             </td>
                                             <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal"></p>
+                                                <p class="mb-0 fw-normal">{{ $bill->user->phone }}</p>
                                             </td>
                                             <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal"></p>
+                                                <p class="mb-0 fw-normal">{{ number_format( $bill->total, 0, ',', '.') }} ₫</p>
                                             </td>
                                             <td class="border-bottom-0">
                                                 <p class="mb-0 fw-normal">
-                                                   
+                                                    @if ($bill->pay == 1)
+                                                        Paid
+                                                    @else
+                                                        Unpaid
+                                                    @endif
                                                 </p>
                                             </td>
                                             <td class="border-bottom-0">
                                                 <p class="mb-0 fw-normal">
-                                                   
+                                                    @if ($bill->status == 1)
+                                                        Đơn hàng mới
+                                                    @elseif($bill->status == 2)
+                                                        Đơn hàng đang được đóng gói
+                                                    @elseif($bill->status == 3)
+                                                        Đơn hàng đang được vận chuyển
+                                                    @elseif($bill->status == 4)
+                                                        Đơn hàng đã được giao
+                                                    @elseif($bill->status == 5)
+                                                        Giao hàng thất bại
+                                                    @elseif($bill->status == 6)
+                                                        Đơn hàng đã bị hủy
+                                                    @endif
                                                 </p>
                                             </td>
                                             <td class="border-bottom-0" style="display: flex;">
@@ -73,6 +90,7 @@
                                                         class="btn btn-success m-1">In hóa đơn</button></a>
                                             </td>
                                         </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
