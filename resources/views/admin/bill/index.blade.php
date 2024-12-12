@@ -84,7 +84,7 @@
                                                 </p>
                                             </td>
                                             <td class="border-bottom-0" style="display: flex;">
-                                                <a href=""><button type="submit"
+                                                <a href="{{ route('bill.detail', $bill->id) }}"><button type="submit"
                                                         class="btn btn-info m-1">Chi tiết</button></a>
                                                 <a href=""><button type="submit"
                                                         class="btn btn-success m-1">In hóa đơn</button></a>

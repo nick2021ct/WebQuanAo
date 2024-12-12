@@ -8,8 +8,8 @@
             <div class="row">
                 <div class="card w-100">
                     <div class="card-body p-4">
-                        <h5 class="card-title fw-semibold mb-4 mt-5">Chi tiết đơn hàng </h5>
-                        <a href=""><button type="submit" class="btn btn-success m-1">In hóa
+                        <h5 class="card-title fw-semibold mb-4 mt-5">Chi tiết đơn hàng {{ $bill->id }}</h5>
+                        <a href="{{ route('invoice', $bill->id) }}"><button type="submit" class="btn btn-success m-1">In hóa
                                 đơn</button></a>
                         <div class="table-responsive">
                             <table class="table text-nowrap mb-0 align-middle">
@@ -41,17 +41,21 @@
                                 <tbody>
                                     <tr>
                                         <td class="border-bottom-0">
-                                            <p class="mb-0 fw-normal"></p>
+                                            <p class="mb-0 fw-normal">{{ $bill->user->fullname }}</p>
                                         </td>
                                         <td class="border-bottom-0">
-                                            <p class="mb-0 fw-normal"></p>
+                                            <p class="mb-0 fw-normal">{{ $bill->user->address }}</p>
                                         </td>
                                         <td class="border-bottom-0">
-                                            <p class="mb-0 fw-normal"></p>
+                                            <p class="mb-0 fw-normal">{{ $bill->user->phone }}</p>
                                         </td>
                                         <td class="border-bottom-0">
                                             <p class="mb-0 fw-normal">
-                                              
+                                                @if ($bill->pay == 1)
+                                                    Paid (<span class="format-currency">{{ $bill->total }}đ</span>)
+                                                @else
+                                                    Unpaid
+                                                @endif
                                             </p>
                                         </td>
                                         <td class="border-bottom-0">
@@ -63,8 +67,9 @@
                                                 @endif
                                             </p>
                                         </td>
-                                        <form action="" method="post">
-                                         
+                                        <form action="{{ route('bill.update', $bill->id) }}" method="post">
+                                            @csrf
+                                            @method('POST')
                                             <td class="border-bottom-0">
                                                 <select name="status" id="" class="form-select">
                                                     <option {{ $bill->status == 1 ? 'selected' : '' }} value="1">Đơn hàng mới</option>
@@ -112,7 +117,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                   
+                                    @php
+                                        $stt = 1;
+                                    @endphp
+                                    @foreach ($carts as $cart)
                                         <tr>
                                             <td class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">{{ $stt }}</h6>
@@ -138,7 +146,10 @@
                                                 <p class="mb-0 fw-normal format-currency">{{ $cart->total }}đ</p>
                                             </td>
                                         </tr>
-                                       
+                                        @php
+                                            $stt++;
+                                        @endphp
+                                    @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr>
