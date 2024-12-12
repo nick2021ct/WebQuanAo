@@ -25,4 +25,19 @@ class BillControllerAdmin extends Controller
         }
         return view('admin.bill.detailBill', compact('bill', 'carts', 'totalBill'));
     }
+
+    public function updateBill($id, Request $request){
+
+        $bill = Order::findOrFail($id);
+        if(in_array($bill->status,[3,4]) && $request->status == 6){
+            toastr()->error('Đơn hàng không thể bị huỷ khi đã được vẫn chuyển', 'Updates order');
+
+        }else{
+            $bill->status = $request->status;
+            $bill->save();
+            toastr()->success('Successfully', 'Updates order');
+
+        }
+        return redirect()->route('bill.index');
+    }
 }
