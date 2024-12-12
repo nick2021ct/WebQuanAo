@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\BillControllerAdmin;
 use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,3 +36,6 @@ Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/order', [OrderController::class, 'listOrder'])->name('listOrder');
 Route::get('/order-detail/{id}', [OrderController::class, 'detailOrder'])->name('detailOrder');
 Route::get('/order-change-status/{id}',[OrderController::class,'updateStatusOrder'])->name('updateStatusOrder');
+
+Route::get('/order', [BillControllerAdmin::class, 'index'])->name('bill.index');
+Route::get('/order-detail/{id}', [BillControllerAdmin::class, 'detailBill'])->name('bill.detail');
