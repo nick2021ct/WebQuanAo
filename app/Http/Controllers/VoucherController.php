@@ -27,7 +27,7 @@ class VoucherController extends Controller
    
     /**
      * Storeee a newly created resource in storage.
-     */
+     *///
     public function store(Request $request)
     {
         $request->validate([
@@ -49,6 +49,7 @@ class VoucherController extends Controller
         toastr()->success('Successfully', 'Added voucher');
         return redirect()->route('voucher.index');
     }
+
     /**
      * Display the specified resource.
      */
