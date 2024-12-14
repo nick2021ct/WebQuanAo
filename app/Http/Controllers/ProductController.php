@@ -59,7 +59,6 @@ class ProductController extends Controller
         $categories = Category::all();
         return view('admin.product.create', compact('brands', 'categories'));
     }
-
     /**
      * Store a newly created resource in storage.
      */
