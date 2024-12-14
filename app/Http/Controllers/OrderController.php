@@ -250,7 +250,7 @@ class OrderController extends Controller
             //cập nhật đã thanh toán cho đơn hàng
             Order::where('id', $idOrder)->update(['pay' => 1]);
             $bill = Order::Where('id', $idOrder)->first();
-            $email = Auth::user()->email;
+            $email = Auth::user()->email;aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
             //giảm số lượng sản phẩm khi đã mua 
             $carts = Cart::where('idOrder', $idOrder)->get();
             $totalBill = 0;
