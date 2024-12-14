@@ -308,14 +308,6 @@ class OrderController extends Controller
 
         $user = User::where('id', $order->idUser)->first();, 'order')
 
-        $user = User::where('id', $order->idUser)->first();, 'order')
-        $user = User::where('id', $order->idUser)->first();, 'order')
-        $user = User::where('id', $order->idUser)->first();, 'order')
-        $user = User::where('id', $order->idUser)->first();, 'order')
-        $user = User::where('id', $order->idUser)->first();, 'order')
-        $user = User::where('id', $order->idUser)->first();, 'order')
-        $user = User::where('id', $order->idUser)->first();, 'order')
-        $user = User::where('id', $order->idUser)->first();, 'order')
 
     }
 }
