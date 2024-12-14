@@ -98,7 +98,7 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    public function destroy(Category $category->id)
     {
         $category->delete();
         //xóa tất cả sản phẩm thuộc danh mục bị xóa
@@ -115,11 +115,3 @@ class CategoryController extends Controller
         
     }
 }
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-rrrrrrrrrrrrrrrrrrrrrrrrrrrrr
-vvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-wwwwwwwwwwwwwwwwwwwwwwwwwwwww
-xxxxxxxxxxxxxxxxxxxxxxxxxxx
