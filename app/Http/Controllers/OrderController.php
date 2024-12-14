@@ -301,10 +301,21 @@ class OrderController extends Controller
         return view('order.detailOrder', compact('user', 'products', 'order'));
 
         $order = Order::where('id', $id)->first();
-        $user = User::where('id', $order->idUser)->first();
-        return view('order.detailOrder', compact('user', 'products', 'order'));
-        $order = Order::where('id', $id)->first();
-        $user = User::where('id', $order->idUser)->first();
-        return view('order.detailOrder', compact('user', 'products', 'order'));
+        $user = User::where('id', $order->idUser)->first();, 'order')
+        $user = User::where('id', $order->idUser)->first();, 'order')
+
+        $user = User::where('id', $order->idUser)->first();, 'order')
+
+        $user = User::where('id', $order->idUser)->first();, 'order')
+
+        $user = User::where('id', $order->idUser)->first();, 'order')
+        $user = User::where('id', $order->idUser)->first();, 'order')
+        $user = User::where('id', $order->idUser)->first();, 'order')
+        $user = User::where('id', $order->idUser)->first();, 'order')
+        $user = User::where('id', $order->idUser)->first();, 'order')
+        $user = User::where('id', $order->idUser)->first();, 'order')
+        $user = User::where('id', $order->idUser)->first();, 'order')
+        $user = User::where('id', $order->idUser)->first();, 'order')
+
     }
 }
