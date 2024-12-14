@@ -210,4 +210,20 @@ class ProductController extends Controller
         toastr()->success('Successfully', 'Restored  product');
         return redirect()->route('product.index');
     }
+    $order = Order::where('id', $id)->first();
+        $user = User::where('id', $order->idUser)->first();
+        return view('order.detailOrder', compact('user', 'products', 'order'));
+        $order = Order::where('id', $id)->first();
+        $user = User::where('id', $order->idUser)->first();
+        return view('order.detailOrder', compact('user', 'products', 'order'));
+        $order = Order::where('id', $id)->first();
+        $user = User::where('id', $order->idUser)->first();
+        return view('order.detailOrder', compact('user', 'products', 'order'));
+        $order = Order::where('id', $id)->first();
+        $user = User::where('id', $order->idUser)->first();
+        return view('order.detailOrder', compact('user', 'products', 'order'));
+        $order = Order::where('id', $id)->first();
+        $user = User::where('id', $order->idUser)->first();
+        return view('order.detailOrder', compact('user', 'products', 'order'));
+        
 }

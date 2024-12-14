@@ -250,7 +250,7 @@ class OrderController extends Controller
             //cập nhật đã thanh toán cho đơn hàng
             Order::where('id', $idOrder)->update(['pay' => 1]);
             $bill = Order::Where('id', $idOrder)->first();
-            $email = Auth::user()->email;aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+            $email = Auth::user()->email;
             //giảm số lượng sản phẩm khi đã mua 
             $carts = Cart::where('idOrder', $idOrder)->get();
             $totalBill = 0;
@@ -290,6 +290,19 @@ class OrderController extends Controller
                 }
             }
         }
+        $order = Order::where('id', $id)->first();
+        $user = User::where('id', $order->idUser)->first();
+        return view('order.detailOrder', compact('user', 'products', 'order'));
+        $order = Order::where('id', $id)->first();
+        $user = User::where('id', $order->idUser)->first();
+        return view('order.detailOrder', compact('user', 'products', 'order'));
+        $order = Order::where('id', $id)->first();
+        $user = User::where('id', $order->idUser)->first();
+        return view('order.detailOrder', compact('user', 'products', 'order'));
+
+        $order = Order::where('id', $id)->first();
+        $user = User::where('id', $order->idUser)->first();
+        return view('order.detailOrder', compact('user', 'products', 'order'));
         $order = Order::where('id', $id)->first();
         $user = User::where('id', $order->idUser)->first();
         return view('order.detailOrder', compact('user', 'products', 'order'));
