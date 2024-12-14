@@ -12,4 +12,14 @@ class Order extends Model
     public function user(){
         return $this->belongsTo(User::class, 'idUser', 'id');
     }
+    public function carts(){
+        return $this->hasMany(Cart::class, 'idOrder', 'id');
+    }
+    public function voucher(){
+        return $this->belongsTo(Voucher::class, 'idVoucher', 'id');
+    }
+    public function total(){
+        return $this->total - $this
+        ->voucher->value;
+            
 }
