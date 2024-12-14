@@ -51,7 +51,7 @@
         <a data-toggle="modal" data-target="#heart" style="cursor: pointer"><img
                 src="{{ asset('storage/img/icon/heart.png') }}" alt="">
         </a>
-        <a href="{{ route('viewCart') }}"><img src="{{ asset('storage/img/icon/cart.png') }}" alt="">
+      
             <span></span></a>
         {{-- <a href="#"><img src="{{ asset('storage/img/icon/cart.png') }}" alt=""> <span>0</span></a>
         <div class="price">$0.00</div> --}}
