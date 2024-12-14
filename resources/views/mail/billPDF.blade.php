@@ -28,6 +28,11 @@
             border: 1px solid #dee2e6;
             text-align: center;
         }
+       .content {
+            padding: 15px;
+            border: 1px solid #dee2e6;
+            text-align: center;
+        }
         th {
             height: 50px;
             text-align: center;
