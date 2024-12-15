@@ -37,7 +37,8 @@ class VoucherController extends Controller
             'dateEnd' => 'required',
             'number' => 'required',
             'value' => 'required',
-        ]);
+        ]); 
+
         Voucher::create([
             'name' => $request->name,
             'code' => $request->code,
