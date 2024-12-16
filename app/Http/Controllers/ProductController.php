@@ -207,4 +207,49 @@ class ProductController extends Controller
         toastr()->success('Successfully', 'Restored  product');
         return redirect()->route('product.index');
     }
+    public function fake(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'price' => 'required',
+            'priceSale' => 'required',
+            'images' => 'required',
+            'description' => 'required',
+        ],[
+            'images.required' => 'The image field is required.'
+        ]);
+        //thêm sản phẩm
+        $data = [
+            'name' => $request->name,
+            'price' => $request->price,
+            'priceSale' => $request->priceSale,
+            'gender' => $request->gender,
+            'description' => $request->description,
+            'idCategory' => $request->category,
+            'idBrand' => $request->brand,
+        ];
+        Product::create($data);
+        //lấy ra id sản phẩm vừa thêm
+        $idProduct = Product::orderBy('id', 'DESC')->first()->id;
+        //thực hiện thêm ảnh của sản phẩm vào table Images
+        $arrayNameImage =  $this->uploadImage($request);
+        foreach($arrayNameImage as $nameImage){
+            Image::create([
+                'srcImage' => $nameImage,
+                'idProduct' => $idProduct,
+            ]);
+        }
+        //thêm số lượng sản phẩm theo size
+        Size::create([
+            'S' => $request->sizeS,
+            'M' => $request->sizeM,
+            'L' => $request->sizeL,
+            'XL' => $request->sizeXL,
+            'XXL' => $request->size2XL,
+            'XXXL' => $request->size3XL,
+            'idProduct' => $idProduct,
+        ]);
+        toastr()->success('Successfully', 'Added product');
+        return redirect()->route('product.index');
+    }
 }
