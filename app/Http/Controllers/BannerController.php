@@ -7,15 +7,24 @@ use Illuminate\Http\Request;
 
 class BannerController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $banners = Banner::all();
+        $banners = Banner::orderBy('created_at', 'desc')->get();
         return view('admin.banner.index', compact('banners'));
     }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+
     public function create()
     {
         return view('admin.banner.create');
     }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -31,6 +40,7 @@ class BannerController extends Controller
         toastr()->success('Successfully', 'Added banner');
         return redirect()->route('banner.index');
     }
+
     public function edit(Banner $banner)
     {
         return view('admin.banner.edit', compact('banner'));
@@ -57,6 +67,7 @@ class BannerController extends Controller
         toastr()->success('Successfully', 'Updated banner');
         return redirect()->route('banner.index');
     }
+
     public function destroy(Banner $banner)
     {
         $banner->delete();
@@ -64,8 +75,3 @@ class BannerController extends Controller
         return redirect()->route('banner.index');
     }
 
-}
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
