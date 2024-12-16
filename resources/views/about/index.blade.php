@@ -35,22 +35,18 @@
                 <div class="col-lg-4 col-md-4 col-sm-6">
                     <div class="about__item">
                         <h4>Who We Are ?</h4>
-                        <p>Các chương trình quảng cáo theo ngữ cảnh đôi khi cũng có những chính sách nghiêm ngặt cần được
-                            tuân thủ. Hãy lấy Google làm ví dụ.</p>
+
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6">
                     <div class="about__item">
                         <h4>Who We Do ?</h4>
-                        <p>Trong thế hệ kỹ thuật số này, nơi có thể dễ dàng lấy được thông tin trong vòng vài giây, danh
-                            thiếp vẫn giữ được tầm quan trọng của chúng.</p>
+
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6">
                     <div class="about__item">
-                        <h4>Why Choose Us</h4>
-                        <p>Một ngôi nhà hai hoặc ba tầng là cách lý tưởng để tận dụng tối đa mảnh đất mà ngôi nhà của chúng
-                            ta tọa lạc, nhưng dành cho những người già hoặc ốm yếu.</p>
+
                     </div>
                 </div>
             </div>
@@ -65,8 +61,7 @@
                 <div class="col-lg-6 p-0">
                     <div class="testimonial__text">
                         <span class="icon_quotations"></span>
-                        <p>“Going out after work? Take your butane curling iron with you to the office, heat it up,
-                            style your hair before you leave the office and you won’t have to make a trip back home.”
+
                         </p>
                         <div class="testimonial__author">
                             <div class="testimonial__author__pic">
@@ -95,7 +90,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="counter__item">
                         <div class="counter__item__number">
-                            <h2 class="cn_num">{{$countUser}}</h2>
+
                         </div>
                         <span>Khách hàng <br />Của chúng tôi</span>
                     </div>
@@ -103,7 +98,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="counter__item">
                         <div class="counter__item__number">
-                            <h2 class="cn_num">{{$countProduct}}</h2>
+
                         </div>
                         <span>Tổng sản phẩm <br />Của chúng tôi</span>
                     </div>
@@ -111,7 +106,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="counter__item">
                         <div class="counter__item__number">
-                            <h2 class="cn_num">{{$countBrand}}</h2>
+
                         </div>
                         <span> Thương hiệu <br> Website</span>
                     </div>
@@ -122,7 +117,7 @@
                             <h2 class="cn_num">98</h2>
                             <strong>%</strong>
                         </div>
-                        <span>Happy <br />Customer</span>
+
                     </div>
                 </div>
             </div>
