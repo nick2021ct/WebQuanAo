@@ -30,42 +30,7 @@ class ProductController extends Controller
                     break;
                 }
             }
-            ///// tính tổng số lượng sản phẩm theo size hiện có
-            $product->number = $product->size->S + $product->size->M + $product->size->L + $product->size->XL + $product->size->XXL + $product->size->XXXL;
-            //hiển thị size đang còn của sản phẩm
-            $product->sizeShow = '';
-            if($product->size->S > 0){
-                $product->sizeShow .= ' S';
-            }
-            if($product->size->M > 0){
-                $product->sizeShow .= ' M';
-            }
-            if($product->size->L > 0){
-                $product->sizeShow .= ' L';
-            }
-            if($product->size->XL > 0){
-                $product->sizeShow .= ' XL';
-            }
-            if($product->size->XXL > 0){
-                $product->sizeShow .= ' XXL';
-            }
-            if($product->size->XXXL > 0){
-                $product->sizeShow .= ' XXXL';
-            }
-        }
-        return view('admin.product.index', compact('products'));
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $brands = Brand::all();
-        $categories = Category::all();
-        return view('admin.product.create', compact('brands', 'categories'));
-    }
-    // :
 
     /**
      * Store a newly created resource in storage.
@@ -144,7 +109,7 @@ class ProductController extends Controller
     }
 
     /**
-     * 
+
      */
     public function update(Request $request, Product $product)
     {
