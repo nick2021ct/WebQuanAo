@@ -94,42 +94,31 @@
                                         <span>Size:</span>
                                         @if ($product->size->XXXL > 0)
                                             <label for="xxxl">xxxl
-                                                <input type="radio" id="xxxl" name="size" value="XXXL">
-                                                | <span class="text-danger">{{ $product->size->XXXL }}</span>
+
                                             </label>
                                         @endif
                                         @if ($product->size->XXL > 0)
                                             <label for="xxl">xxl
-                                                <input type="radio" id="xxl" name="size" value="XXL">
-                                                | <span class="text-danger">{{ $product->size->XXXL }}</span>
 
                                             </label>
                                         @endif
                                         @if ($product->size->XL > 0)
                                             <label for="xl">xl
-                                                <input type="radio" id="xl" name="size" value="XL">
-                                                | <span class="text-danger">{{ $product->size->XL }}</span>
 
                                             </label>
                                         @endif
                                         @if ($product->size->L > 0)
                                             <label for="l">l
-                                                <input type="radio" id="l" name="size" value="L">
-                                                | <span class="text-danger">{{ $product->size->L }}</span>
 
                                             </label>
                                         @endif
                                         @if ($product->size->M > 0)
                                             <label for="m">m
-                                                <input type="radio" id="m" name="size" value="M">
-                                                | <span class="text-danger">{{ $product->size->M }}</span>
 
                                             </label>
                                         @endif
                                         @if ($product->size->S > 0)
                                             <label for="s">s
-                                                <input type="radio" id="s" name="size" value="S">
-                                                | <span class="text-danger">{{ $product->size->S }}</span>
 
                                             </label>
                                         @endif

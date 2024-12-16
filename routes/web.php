@@ -19,6 +19,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VoucherController;
 use Illuminate\Foundation\Console\AboutCommand;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,6 +35,7 @@ Route::get('/', [HomeController::class, 'home'])->name('home');
 //About
 
 Route::get('/about', [AboutController::class, 'index'])->name('about');
+
 //Product
 Route::get('/list-product', [HomeController::class, 'listProduct'])->name('listProduct');
 Route::get('/detail-product/{id}', [HomeController::class, 'detailProduct'])->name('detailProduct');
@@ -114,6 +116,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'AdminLogin'], function () {
     Route::put('/brand/{brand}', [BrandController::class, 'update'])->middleware('can:updateBrand')->name('brand.update');
     Route::delete('/brand/{brand}', [BrandController::class, 'destroy'])->middleware('can:deleteBrand')->name('brand.destroy');
     Route::get('/brand-restore/{id}', [BrandController::class, 'restore'])->middleware('can:deleteBrand')->name('admin.brand.restore');
+
     //Product Management
     // Route::resource('/product', ProductController::class)->middleware('can:showProduct');
     Route::get('/product', [ProductController::class, 'index'])->middleware('can:showProduct')->name('product.index');
@@ -155,6 +158,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'AdminLogin'], function () {
     Route::get('/order-detail/{id}', [BillControllerAdmin::class, 'detailBill'])->name('bill.detail');
     Route::post('/order-update/{id}', [BillControllerAdmin::class, 'updateBill'])->name('bill.update');
     Route::get('/order-invoice/{id}', [BillControllerAdmin::class, 'invoice'])->name('invoice');
+
 });
 
 Route::get('/test', [OrderController::class, 'test']);
