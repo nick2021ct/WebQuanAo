@@ -193,4 +193,18 @@ class ProductController extends Controller
         toastr()->success('Successfully', 'Restored  product');
         return redirect()->route('product.index');
     }
+    public function cancel($idProduct){
+        $product = Product::withTrashed()->where('id', $idProduct)->first();
+        // dd($product);
+        $product->restore();
+        toastr()->success('Successfully', 'Restored  product');
+        return redirect()->route('product.index');
+    }
+    public function trash($idProduct){
+        $product = Product::withTrashed()->where('id', $idProduct)->first();
+        // dd($product);
+        $product->restore();
+        toastr()->success('Successfully', 'Restored  product');
+        return redirect()->route('product.index');
+    }
 }
