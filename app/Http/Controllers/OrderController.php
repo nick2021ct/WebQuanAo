@@ -16,6 +16,7 @@ class OrderController extends Controller
             if ($voucher->number > 0) {
                 $nowDay = Carbon::now();
                 if ($nowDay >= $voucher->dateStart && $nowDay < $voucher->dateEnd) {
+
                     $user = Auth::user();
                     $carts = Cart::where('idUser', $user->id)->where('idOrder', null)->get();
                     $carts->load('product');
@@ -37,6 +38,7 @@ class OrderController extends Controller
         }
     }
 
+
     public function getFormCheckOut()
     {
         $user = Auth::user();
@@ -51,6 +53,7 @@ class OrderController extends Controller
 
     public function submitFormCheckOut(Request $request)
     {
+
         $data = [
             'idUser' => Auth::user()->id,
             'total' => $request->total,
@@ -197,4 +200,5 @@ class OrderController extends Controller
     }
    
 }
+
 
