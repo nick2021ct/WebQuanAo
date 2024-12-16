@@ -175,4 +175,5 @@ class ProductController extends Controller
         toastr()->success('Successfully', 'Restored  product');
         return redirect()->route('product.index');
     }
+    
 }
