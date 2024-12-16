@@ -80,6 +80,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/order-detail/{id}', [OrderController::class, 'detailOrder'])->name('detailOrder');
     Route::get('/order-change-status/{id}',[OrderController::class,'updateStatusOrder'])->name('updateStatusOrder');
 });
+
 //Login admin
 Route::get('admin/login', [AccountControllerAdmin::class, 'getFormLogin'])->name('adminLogin');
 Route::post('admin/login', [AccountControllerAdmin::class, 'submitFormLogin'])->name('adminLogin');
@@ -126,6 +127,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'AdminLogin'], function () {
     Route::put('/product/{product}', [ProductController::class, 'update'])->middleware('can:updateProduct')->name('product.update');
     Route::delete('/product/{product}', [ProductController::class, 'destroy'])->middleware('can:deleteProduct')->name('product.destroy');
     Route::get('/product-restore/{id}', [ProductController::class, 'restore'])->middleware('can:deleteProduct')->name('admin.product.restore');
+
     //Banner Management
     // Route::resource('/banner', BannerController::class)->middleware('can:showBanner');
     Route::get('/banner', [BannerController::class, 'index'])->middleware('can:showBanner')->name('banner.index');
@@ -153,6 +155,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'AdminLogin'], function () {
     Route::get('/create-staff', [AccountControllerAdmin::class, 'getFormCreateStaff'])->name('admin.account.createStaff');
     Route::post('/create-staff', [AccountControllerAdmin::class, 'submitFormCreateStaff'])->name('admin.account.createStaff');
     Route::get('/account-unblock/{id}', [AccountControllerAdmin::class, 'unblock'])->middleware('can:deleteAccount')->name('admin.account.unblock');
+
     // Order Management
     Route::get('/order', [BillControllerAdmin::class, 'index'])->name('bill.index');
     Route::get('/order-detail/{id}', [BillControllerAdmin::class, 'detailBill'])->name('bill.detail');

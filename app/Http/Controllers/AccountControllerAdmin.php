@@ -49,7 +49,7 @@ class AccountControllerAdmin extends Controller
     //Management
     public function index()
     {
-        $accounts = User::withTrashed()->orderByDesc('created_at')->get();
+
         return view('admin.account.index', compact('accounts'));
     }
     public function create()
@@ -90,10 +90,7 @@ class AccountControllerAdmin extends Controller
     }
     public function edit($id)
     {
-        $user = User::findOrFail($id);
-        return view('admin.account.edit', compact('user'));
-    }
-    //update account
+
     public function update($id, Request $request)
     {
         $request->validate([
@@ -115,7 +112,7 @@ class AccountControllerAdmin extends Controller
             // 'role' => $request->role,
         ];
         User::where('id', $id)->update($data);
-        $user = User::findOrFail($id);
+
         //set lại quyền cho tk nhân viên
         $roles = ['Account', 'Category', 'Brand', 'Product', 'Banner', 'Voucher', 'Blog'];
         $actions = ['show', 'add', 'update', 'delete'];
@@ -201,6 +198,6 @@ class AccountControllerAdmin extends Controller
         }
         $user->givePermissionTo($permission);
         toastr()->success('Successfully', 'Created account');
-        return redirect()->route('admin.account.createStaff');
+
     }
 }

@@ -18,11 +18,13 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
+        $products = Product::withTrashed()->get();
 
         // dd($products);
         $images = Image::all();
         $products->load(['size', 'category', 'brand']);
         foreach($products as $product){
+
 
     /**
      * Store a newly created resource in storage.
