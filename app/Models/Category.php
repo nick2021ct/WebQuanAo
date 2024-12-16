@@ -6,4 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\\Model;
 use Illuminate\Database\Eloquent\;
 
-class Category extend
+
+class Category extends Model
+{
+    use HasFactory;
+    use SoftDeletes;
+    protected $fillable = [
+        'name',
+        'description',
+    ];
+
+}
+
