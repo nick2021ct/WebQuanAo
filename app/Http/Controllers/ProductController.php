@@ -31,7 +31,8 @@ class ProductController extends Controller
                 }
             }
 
-
+        }
+    }
     /**
      * Store a newly created resource in storage.
      */
@@ -169,6 +170,23 @@ class ProductController extends Controller
     }
 
     public function restore($idProduct){
+        $product = Product::withTrashed()->where('id', $idProduct)->first();
+        // dd($product);
+        $product->restore();
+        toastr()->success('Successfully', 'Restored  product');
+        return redirect()->route('product.index');
+    }
+
+
+
+    public function imagine($idProduct){
+        $product = Product::withTrashed()->where('id', $idProduct)->first();
+        // dd($product);
+        $product->restore();
+        toastr()->success('Successfully', 'Restored  product');
+        return redirect()->route('product.index');
+    }
+    public function invisible($idProduct){
         $product = Product::withTrashed()->where('id', $idProduct)->first();
         // dd($product);
         $product->restore();
