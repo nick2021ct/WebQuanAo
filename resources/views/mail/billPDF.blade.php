@@ -28,11 +28,13 @@
             border: 1px solid #dee2e6;
             text-align: center;
         }
+
        .content {
             padding: 15px;
             border: 1px solid #dee2e6;
             text-align: center;
         }
+
         th {
             height: 50px;
             text-align: center;
@@ -56,8 +58,9 @@
     </style>
 </head>
 <body>
-    <h3>Zara</h3>
-    <p>Cảm ơn bạn đã chọn mua sắm tại Zara. Dưới đây là chi tiết hóa đơn của bạn cùng với lời cảm ơn chân thành từ chúng tôi.</p>
+    <h3>PA2T</h3>
+    <p>Cảm ơn bạn đã chọn mua sắm tại PA2T. Dưới đây là chi tiết hóa đơn của bạn cùng với lời cảm ơn chân thành từ chúng tôi.</p>
+
     <table border="1">
         <thead>
             <th>ID Đơn Hàng</th>

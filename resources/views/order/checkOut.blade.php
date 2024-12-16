@@ -4,9 +4,25 @@
 @endsection
 @section('content')
     <!-- Breadcrumb Section Begin -->
-    
+    <section class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__text">
+                        <h4>Thanh toán</h4>
+                        <div class="breadcrumb__links">
+                            <a href="/">Trang chủ</a>
+                            <a href="{{ route('listProduct') }}">Sản phẩm</a>
+                            <span>Thanh toán</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     <!-- Breadcrumb Section End -->
-{{--  --}}
+
+
     <!-- Checkout Section Begin -->
     <section class="checkout spad">
         <div class="container">

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Cart extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'idProduct',
         'qty',
@@ -15,9 +16,5 @@ class Cart extends Model
         'idUser',
         'idOrder',
     ];
-
-    public function product(){
-        return $this->belongsTo(Product::class, 'idProduct', 'id');
-    }
 
 }

@@ -3,32 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
-use App\Models\Image;
-use App\Models\Order;
-use App\Models\Size;
-use App\Models\User;
-use App\Models\Voucher;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\OrderSuccessfully;
-use App\Models\Product;
 
 class OrderController extends Controller
 {
+
+
     public function discountCode(Request $request)
     {
-        //Check code nhập vào có tồn tại hay không
         $voucher = Voucher::where('code', $request->code)->first();
-        //nếu tồn tại
         if (!is_null($voucher)) {
-            //Check số lượng code còn hay không
             if ($voucher->number > 0) {
-                //Check ngày bắt đầu và ngày kết thúc code 
                 $nowDay = Carbon::now();
                 if ($nowDay >= $voucher->dateStart && $nowDay < $voucher->dateEnd) {
-                    
+
                     $user = Auth::user();
                     $carts = Cart::where('idUser', $user->id)->where('idOrder', null)->get();
                     $carts->load('product');
@@ -36,22 +24,21 @@ class OrderController extends Controller
                     foreach ($carts as $cart) {
                         $totalBill += $cart->qty * $cart->product->priceSale;
                     }
-                    if($totalBill >= $voucher->value){
-                        $request->session()->put('voucher_code', $request->code);
-                        return view('order.checkOut', compact('user', 'carts', 'voucher', 'totalBill'));
-                    }else{
-                        return redirect()->route('checkOut')->with('error', 'Voucher chỉ dành cho giỏ hàng có tổng giá tiền trên '.$voucher->value);
-                    }
+                    // Voucher::where('code', $request->code)->update(['number' => $voucher->number - 1]);
+                    $request->session()->put('voucher_code', $request->code);
+                    return view('order.checkOut', compact('user', 'carts', 'voucher', 'totalBill'));
                 } else {
-                    return redirect()->route('checkOut')->with('error', 'Mã đã hết hạn');
+                    return redirect()->route('checkOut')->with('error', 'Code has expired');
                 }
             } else {
-                return redirect()->route('checkOut')->with('error', 'Mã đã hết hạn');
+                return redirect()->route('checkOut')->with('error', 'Code has expired');
             }
         } else {
-            return redirect()->route('checkOut')->with('error', 'Mã không tồn tại');
+            return redirect()->route('checkOut')->with('error', 'Code does not exist');
         }
     }
+
+
     public function getFormCheckOut()
     {
         $user = Auth::user();
@@ -63,9 +50,10 @@ class OrderController extends Controller
         }
         return view('order.checkOut', compact('user', 'carts', 'totalBill'));
     }
+
     public function submitFormCheckOut(Request $request)
     {
-        //xử lí thêm đơn hàng
+
         $data = [
             'idUser' => Auth::user()->id,
             'total' => $request->total,
@@ -85,9 +73,7 @@ class OrderController extends Controller
         Cart::where('idOrder', null)->where('idUser', $order->idUser)->update([
             'idOrder' => $order->id
         ]);
-        // Trừ số lượng trong kho
 
-        //xử lý thanh toán với vnpay
         if ($request->paymentMethod == 0) {
             return redirect()->route('completePayment', ['payment' => 0, 'idOrder' => $order->id]);
         } else {
@@ -157,6 +143,7 @@ class OrderController extends Controller
             }
         }
     }
+
     public function completePayment(Request $request)
     {
 
@@ -208,15 +195,10 @@ class OrderController extends Controller
             Mail::to($email)->send(new OrderSuccessfully($bill, $carts, $totalBill));
             return view('order.completePayment');
         }
-
+       
         return redirect('/')->with('error', 'Lỗi trong quá trình thanh toán phí dịch vụ');
     }
-    public function listOrder()
-    {
-        $orders = Order::where('idUser', Auth::user()->id)->orderByDesc('created_at')->get();
-        return view('order.listOrder', compact('orders'));
-    }
-    
-
-    
+   
 }
+
+

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AboutController;
+
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AccountControllerAdmin;
 use App\Http\Controllers\BannerController;
@@ -164,4 +165,4 @@ Route::group(['prefix' => 'admin', 'middleware' => 'AdminLogin'], function () {
 
 });
 
-Route::get('/test', [OrderController::class, 'test']);
+
