@@ -182,4 +182,40 @@ class HomeController extends Controller
         }
         return view('product.productList', compact('products', 'categories', 'brands'));
     }
+
+
+    public function searchHome(Request $request)
+    {
+        $categories = Category::get();
+        $brands = Brand::get();
+        $products = Product::where('name', 'like', '%' . $request->kyw . '%')->paginate(1);
+        $images = Image::all();
+        //Lấy ra ảnh đầu tiên làm ảnh đại diện cho sản phẩm
+        foreach ($products as $product) {
+            foreach ($images as $image) {
+                if ($image->idProduct == $product->id) {
+                    $product->image = $image;
+                    break;
+                }
+            }
+        }
+        return view('product.productList', compact('products', 'categories', 'brands'));
+    }
+    public function searchBlog(Request $request)
+    {
+        $categories = Category::get();
+        $brands = Brand::get();
+        $products = Product::where('name', 'like', '%' . $request->kyw . '%')->paginate(1);
+        $images = Image::all();
+        //Lấy ra ảnh đầu tiên làm ảnh đại diện cho sản phẩm
+        foreach ($products as $product) {
+            foreach ($images as $image) {
+                if ($image->idProduct == $product->id) {
+                    $product->image = $image;
+                    break;
+                }
+            }
+        }
+        return view('product.productList', compact('products', 'categories', 'brands'));
+    }
 }
