@@ -19,17 +19,11 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $products = Product::withTrashed()->get();
+
         // dd($products);
         $images = Image::all();
         $products->load(['size', 'category', 'brand']);
         foreach($products as $product){
-            //Lấy ra ảnh đầu tiên làm ảnh đại diện cho sản phẩm
-            foreach($images as $image){
-                if($image->idProduct == $product->id){
-                    $product->image = $image;
-                    break;
-                }
-            }
 
 
     /**
@@ -158,6 +152,7 @@ class ProductController extends Controller
         return redirect()->route('product.index');
     }
 
+
     /**
      * Remove the specified resource from storage.
      */
@@ -174,6 +169,5 @@ class ProductController extends Controller
         $product->restore();
         toastr()->success('Successfully', 'Restored  product');
         return redirect()->route('product.index');
-    }
-    
+
 }
