@@ -195,6 +195,12 @@ class ProductController extends Controller
         toastr()->success('Successfully', 'Deleted product');
         return redirect()->route('product.index');
     }
+    public function xoa(Product $product)
+    {
+        $product->xoa();
+        toastr()->success('Successfully', 'Deleted product');
+        return redirect()->route('product.index');
+    }
 
     public function restore($idProduct){
         $product = Product::withTrashed()->where('id', $idProduct)->first();
