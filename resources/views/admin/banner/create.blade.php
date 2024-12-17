@@ -2,6 +2,7 @@
 @section('title')
     Tạo Banner
 @endsection
+
 @section('content')
 <div class="container-fluid">
     <div class="container-fluid">
@@ -35,4 +36,4 @@
         </div>
     </div>
 </div>
-@endsection
+

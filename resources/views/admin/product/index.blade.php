@@ -13,7 +13,7 @@
                             <a href="{{ route('product.create') }}"><button type="submit" class="btn btn-success m-1">Thêm sản
                                     phẩm</button></a>
                         @endcan
-                        <div class="">
+
                             <table class="table text-nowrap mb-0 align-middle" id="example">
                                 <thead class="text-dark fs-4">
                                     <tr>
@@ -42,9 +42,7 @@
                                             <h6 class="fw-semibold mb-0">Thương hiệu</h6>
                                         </th> --}}
                                         <th class="border-bottom-0">
-                                            <h6 class="fw-semibold mb-0">Ngày tạo</h6>
-                                        </th>
-                                        <th class="border-bottom-0">
+
                                             <h6 class="fw-semibold mb-0">Hoạt động</h6>
                                         </th>
                                     </tr>
@@ -62,7 +60,7 @@
                                                 <p class="mb-0 fw-normal">{{ $product->name }}</p>
                                             </td>
                                             <td class="border-bottom-0">
-                                                <img src="{{ asset('storage/images/products/' . $product->images->first()->srcImage) }}"
+
                                                     width="50" height="68" alt="">
                                             </td>
                                             <td class="border-bottom-0">
@@ -82,9 +80,7 @@
                                             <td class="border-bottom-0">
                                                 <p class="mb-0 fw-normal">{{ $product->brand->name }}</p>
                                             </td> --}}
-                                            <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal">{{ $product->created_at->format('d-m-Y') }}</p>
-                                            </td>
+
                                             <td class="border-bottom-0" style="display: flex;  padding-top:30px;">
                                                 @if (is_null($product->deleted_at))
                                                     @can('updateProduct')

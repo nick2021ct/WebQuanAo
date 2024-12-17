@@ -60,6 +60,7 @@
                                                             onclick="return deleteConfirmation()">Xóa</button>
                                                     </form>
                                                 @endcan
+
                                             </td>
                                         </tr>
                                         @php

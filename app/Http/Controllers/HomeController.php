@@ -21,23 +21,12 @@ class HomeController extends Controller
     public function home()
     {
         $banners = Banner::get();
-        $products = Product::with('images')->orderByDesc('view')->limit(8)->get();
+
         $blogs = Blog::select('id', 'title', 'created_at')
             ->with(['image' => function ($query) {
                 $query->select('id', 'idBlog', 'srcImage');
             }])
-            ->orderByDesc('created_at') 
-            ->limit(3)
-            ->get();
-        // $images = Image::all();
-        // foreach ($products as $product) {
-        //     foreach ($images as $image) {
-        //         if ($image->idProduct == $product->id) {
-        //             $product->image = $image;
-        //             break;
-        //         }
-        //     }
-        // }
+
         return view('index', compact('banners', 'products', 'blogs'));
     }
 
@@ -101,7 +90,7 @@ class HomeController extends Controller
 
     public function detailProduct($id)
     {
-        $product = Product::findOrFail($id);
+
         $comments = Comment::where('idProduct', $id)->with('user')->get();
         $countCommentUser = Comment::where('idProduct', $id)->where('idUser', optional(Auth::user())->id)->count();
         $averageRating = $product->averageRating();
