@@ -145,6 +145,18 @@ class AccountControllerAdmin extends Controller
         toastr()->success('Successfully', 'Blocked account');
         return redirect()->route('account.index');
     }
+
+    public function updadtee($id)
+    {
+        //Không thể tự block chính mình
+        if (Auth::user()->id == $id) {
+            toastr()->error('Unachievable', "You can't block yourself");
+            return redirect()->route('account.index');
+        }
+        User::where('id', $id)->delete();
+        toastr()->success('Successfully', 'Blocked account');
+        return redirect()->route('account.index');
+    }
     public function unblock($id)
     {
         User::where('id', $id)->restore();
