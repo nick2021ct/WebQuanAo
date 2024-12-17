@@ -51,6 +51,28 @@ class VoucherController extends Controller
         return redirect()->route('voucher.index');
     }
 
+    public function storestore(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'code' => 'required',
+            'dateStart' => 'required',
+            'dateEnd' => 'required',
+            'number' => 'required',
+            'value' => 'required',
+        ]); 
+
+        Voucher::create([
+            'name' => $request->name,
+            'code' => $request->code,
+            'dateStart' => $request->dateStart,
+            'dateEnd' => $request->dateEnd,
+            'number' => $request->number,
+            'value' => $request->value,
+        ]);
+        toastr()->success('Successfully', 'Added voucher');
+        return redirect()->route('voucher.index');
+    }
     /**
      * Display the specified resource.
      */
