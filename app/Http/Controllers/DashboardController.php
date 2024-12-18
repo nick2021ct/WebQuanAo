@@ -20,26 +20,12 @@ class DashboardController extends Controller
         $data = $request->all();
         $from_date = isset($data['from_date']) ? $data['from_date'] : now()->subDays(30)->format('Y-m-d');
         $to_date = isset($data['to_date']) ? $data['to_date'] : now()->format('Y-m-d');
-        $revenues = Order::whereDate('created_at', '>=', $from_date)
-            ->whereDate('created_at', '<=', $to_date)
-            ->selectRaw('DATE(created_at) as date, sum(total) as total_revenue')
-            ->groupBy('date')
-            ->orderBy('date')
-            ->get();
         return response()->json($revenues);
     }
     public function chart_dashboard()
     {
         $currentYear = now()->year;
         $currentMonth = now()->month;
-        // Lấy tổng total của 2 năm gần đây nhất
-        $revenues = Order::selectRaw('YEAR(created_at) as year, SUM(total) as total_revenue')
-            ->whereYear('created_at', '>=', $currentYear - 1)
-            ->where('pay', '=', 1) // Thêm điều kiện pay khác 0
-            ->groupBy('year')
-            ->orderBy('year', 'desc')
-            ->get();
-        // Phần trăm total của năm nay so với năm trước
         $currentYearRevenue = $revenues->where('year', $currentYear)->first()->total_revenue ?? 0;
         $lastYearRevenue = $revenues->where('year', $currentYear - 1)->first()->total_revenue ?? 0;
         // dd($currentYearRevenue,$lastYearRevenue);
