@@ -19,13 +19,9 @@ class OrderController extends Controller
 {
     public function discountCode(Request $request)
     {
-        //Check code nhập vào có tồn tại hay không
         $voucher = Voucher::where('code', $request->code)->first();
-        //nếu tồn tại
         if (!is_null($voucher)) {
-            //Check số lượng code còn hay không
             if ($voucher->number > 0) {
-                //Check ngày bắt đầu và ngày kết thúc code 
                 $nowDay = Carbon::now();
                 if ($nowDay >= $voucher->dateStart && $nowDay < $voucher->dateEnd) {
                     
