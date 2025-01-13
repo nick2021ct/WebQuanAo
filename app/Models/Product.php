@@ -28,7 +28,7 @@ class Product extends Model
         return $this->belongsTo(Category::class, 'idCategory', 'id')->withTrashed();
     }
     public function size(){
-        return $this->belongsTo(Size::class, 'id', 'idProduct');
+        return $this->hasOne(Size::class, 'idProduct', 'id');
     }
     public function images()
     {

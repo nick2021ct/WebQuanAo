@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-lg-6 col-md-7">
                 <div class="header__top__left">
-                    <p>Chào thu 2024, nhập Voucher Zara2024 để được giảm ngay 150.000</p>
+                    <p>Chào thu 2024, nhập Voucher PA2T để được giảm ngay 150.000</p>
                 </div>
             </div>
             <div class="col-lg-6 col-md-5">
@@ -15,12 +15,15 @@
                         {{-- <a href="#">FAQs</a> --}}
                         @if (Auth::check())
                             <div class="header__top__hover">
-                                <span>Hi, {{ Auth::user()->username }} <i class="arrow_carrot-down"></i></span>
+                                <span>Hi, {{ Auth::user()->fullname }} <i class="arrow_carrot-down"></i></span>
                                 <ul class="text-center">
+                                    <a href="{{ route('information') }}">
+                                        <li>Tài khoản</li>
+                                    </a>
                                     <a href="{{ route('logout') }}">
                                         <li>Đăng xuất</li>
                                     </a>
-                                    @if (Auth::user()->role == 1)
+                                    @if ( in_array(Auth::user()->role,[1,2]))
                                         <a href="{{ route('admin.dashboard') }}">
                                             <li>Quản trị</li>
                                         </a>
@@ -74,7 +77,7 @@
     </div>
     <div id="mobile-menu-wrap"></div>
     <div class="offcanvas__text">
-        <p>Chào thu 2024, nhập Voucher Zara2024 để được giảm ngay 150.000.
+        <p>Chào thu 2024, nhập Voucher PA2T để được giảm ngay 150.000.
 
         </p>
     </div>
@@ -83,7 +86,7 @@
     <div class="row">
         <div class="col-lg-3 col-md-3">
             <div class="header__logo">
-                <a href="/"><img src="{{ asset('storage/img/logo.png') }}" alt=""></a>
+                <a href="/"><img src="{{ asset('storage/img/real-logo.png') }}" alt=""></a>
             </div>
         </div>
         <div class="col-lg-6 col-md-6">
@@ -105,7 +108,7 @@
                         src="{{ asset('storage/img/icon/heart.png') }}" alt="">
                 </a>
                 <a href="{{ route('viewCart') }}"><img src="{{ asset('storage/img/icon/cart.png') }}" alt="">
-                    <span></span></a>
+                    <span class="text text-danger">{{ $cartCount }}</span></a>
                 <div class="price"></div>
             </div>
         </div>

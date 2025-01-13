@@ -17,4 +17,8 @@ class Size extends Model
         'XXXL',
         'idProduct',
     ];
+
+    public function product(){
+        return $this->belongsTo(Product::class, 'idProduct', 'id');
+    }
 }

@@ -21,24 +21,15 @@ class HomeController extends Controller
     public function home()
     {
         $banners = Banner::get();
-        $products = Product::orderByDesc('view')->limit(8)->get();
+        $products = Product::with('images')->orderByDesc('view')->limit(8)->get();
         $blogs = Blog::select('id', 'title', 'created_at')
             ->with(['image' => function ($query) {
                 $query->select('id', 'idBlog', 'srcImage');
             }])
-            ->orderBy('created_at', 'desc') // Order by creation date in descending order
+            ->orderByDesc('created_at') 
             ->limit(3)
             ->get();
-        $images = Image::all();
-        //Lấy ra ảnh đầu tiên làm ảnh đại diện cho sản phẩm
-        foreach ($products as $product) {
-            foreach ($images as $image) {
-                if ($image->idProduct == $product->id) {
-                    $product->image = $image;
-                    break;
-                }
-            }
-        }
+
         return view('index', compact('banners', 'products', 'blogs'));
     }
 
@@ -50,8 +41,7 @@ class HomeController extends Controller
         $categories = Category::get();
         $brands = Brand::get();
         $query = Product::query();
-        // Apply filters based on request inputs for non-Ajax requests
-        // bộ lọc 
+        
         if ($request->input('category')) {
             $query->where('idCategory', $request->input('category'));
         }
@@ -74,7 +64,6 @@ class HomeController extends Controller
         }
 
         if ($request->input('search')) {
-            // Only apply search condition if category is not provided
             if (!$request->input('category') && !$request->input('brand') && !$request->input('priceSaleGap')) {
                 $query->where('name', 'like', '%' . $request->input('search') . '%');
             }
@@ -84,15 +73,10 @@ class HomeController extends Controller
         $productIds = $products->pluck('id')->toArray();
         $images = Image::whereIn('idProduct', $productIds)->get();
 
-        // Assign images to paginated products
         foreach ($products as $product) {
             $product->image = $images->where('idProduct', $product->id)->first();
         }
 
-
-        // Eager load images for products
-
-        // Return view based on request type
         if ($request->ajax()) {
             return view('product.pagination_data', compact('products', 'categories', 'brands', 'images'))->render();
         } else {
@@ -102,7 +86,7 @@ class HomeController extends Controller
 
     public function detailProduct($id)
     {
-        $product = Product::where('id', $id)->first();
+        $product = Product::findOrFail($id);
         $comments = Comment::where('idProduct', $id)->with('user')->get();
         $countCommentUser = Comment::where('idProduct', $id)->where('idUser', optional(Auth::user())->id)->count();
         $averageRating = $product->averageRating();
@@ -136,16 +120,6 @@ class HomeController extends Controller
         $brands = Brand::get();
         $products = Product::where('idCategory', $id)->get();
 
-        $images = Image::all();
-        //Lấy ra ảnh đầu tiên làm ảnh đại diện cho sản phẩm
-        foreach ($products as $product) {
-            foreach ($images as $image) {
-                if ($image->idProduct == $product->id) {
-                    $product->image = $image;
-                    break;
-                }
-            }
-        }
         return view('product.productList', compact('products', 'categories', 'brands'));
     }
     public function listProductByBrand($id)
@@ -153,16 +127,7 @@ class HomeController extends Controller
         $categories = Category::get();
         $brands = Brand::get();
         $products = Product::where('idBrand', $id)->get();
-        $images = Image::all();
-        //Lấy ra ảnh đầu tiên làm ảnh đại diện cho sản phẩm
-        foreach ($products as $product) {
-            foreach ($images as $image) {
-                if ($image->idProduct == $product->id) {
-                    $product->image = $image;
-                    break;
-                }
-            }
-        }
+       
         return view('product.productList', compact('products', 'categories', 'brands'));
     }
     public function searchProduct(Request $request)
@@ -170,16 +135,7 @@ class HomeController extends Controller
         $categories = Category::get();
         $brands = Brand::get();
         $products = Product::where('name', 'like', '%' . $request->kyw . '%')->paginate(1);
-        $images = Image::all();
-        //Lấy ra ảnh đầu tiên làm ảnh đại diện cho sản phẩm
-        foreach ($products as $product) {
-            foreach ($images as $image) {
-                if ($image->idProduct == $product->id) {
-                    $product->image = $image;
-                    break;
-                }
-            }
-        }
+        
         return view('product.productList', compact('products', 'categories', 'brands'));
     }
 }

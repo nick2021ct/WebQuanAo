@@ -58,14 +58,18 @@
                                                         </h5>
                                                     </div>
                                                 </td>
-                                                <td class="quantity__item">
-                                                    <div class="quantity">
-                                                        <div class="pro-qty-2">
+                                                @if ($cart->stock >0)
+                                                <td class="quantity__item" >
+                                                    <div class="quantity" >
+                                                        <div class="pro-qty-2" style="width: 120px">
                                                             <input type="text" value="{{ $cart->qty }}"
-                                                                name="{{ $cart->id }}" min="1">
+                                                                name="{{ $cart->id }}" min="1" max="{{ $cart->stock }}">/ <span class="text-danger">{{ $cart->stock }}</span>
                                                         </div>
                                                     </div>
                                                 </td>
+                                                    @else
+                                                    <td style="color: red">Hết hàng</td>
+                                                @endif
                                                 <td class="cart__price">{{ $cart->size }}</td>
                                                 <td class="cart__price  format-currency">{{ $cart->total }}đ</td>
                                                 <td class="cart__close"><a href="{{ route('deleteInCart', $cart->id) }}"><i
@@ -90,7 +94,7 @@
                         </div>
                     </div>
                     <div class="col-lg-4">
-                {{-- / --}}
+                
                         <div class="cart__total">
                             <h6>Đơn hàng</h6>
                             <ul>

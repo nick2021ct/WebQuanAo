@@ -89,7 +89,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix new-arrivals">
                         <div class="product__item sale">
                             <div class="product__item__pic set-bg"
-                                data-setbg="{{ asset('storage/images/products/' . $product->image->srcImage) }}">
+                                data-setbg="{{ asset('storage/images/products/' . $product->images->first()->srcImage) }}">
                                 <span class="label">Sale</span>
                                 <ul class="product__hover">
                                     <li><a style="cursor: pointer" onclick="add_heart({{ $product->id }})"><img
@@ -118,7 +118,7 @@
                     <input type="hidden" value="{{ $product->id }}">
                     <input type="hidden" id="wishlist_name{{ $product->id }}" value="{{ $product->name }}">
                     <input type="hidden" id="wishlist_image{{ $product->id }}"
-                        value="{{ URL::to('storage/images/products/' . $product->image->srcImage) }}">
+                        value="{{ URL::to('storage/images/products/' . $product->images->first()->srcImage) }}">
                     <input type="hidden" id="wishlist_pricesale{{ $product->id }}" value="{{ $product->priceSale }}">
                     <input type="hidden" id="wishlist_price{{ $product->id }}" value="{{ $product->price }}">
                     <input type="hidden" id="wishlist_url{{ $product->id }}"

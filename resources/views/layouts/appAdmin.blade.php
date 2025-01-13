@@ -35,7 +35,7 @@
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
                     <a href="{{ route('home') }}" class="text-nowrap logo-img">
-                        <img src="{{ asset('storage/img/logo.png') }}" width="180" alt="" />
+                        <img src="{{ asset('storage/img/real-logo.png') }}" width="180" alt="" />
                     </a>
                     <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                         <i class="ti ti-x fs-8"></i>
@@ -138,12 +138,12 @@
                                 <span class="hide-menu">Đơn hàng</span>
                             </a>
                         </li>
+                        @if (Auth::user()->role == 1)
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                             <span class="hide-menu">PHÂN QUYỀN</span>
                         </li>
 
-                        @if (Auth::user()->role == 1)
                             <li class="sidebar-item">
                                 <a class="sidebar-link" href="{{ route('admin.account.createStaff') }}"
                                     aria-expanded="false">

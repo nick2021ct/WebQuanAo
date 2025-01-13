@@ -12,4 +12,8 @@ class Order extends Model
     public function user(){
         return $this->belongsTo(User::class, 'idUser', 'id');
     }
+    public function orderAddress()
+    {
+        return $this->hasOne(OrderAddress::class, 'idOrder', 'id');
+    }
 }

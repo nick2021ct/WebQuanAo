@@ -1,7 +1,10 @@
 @extends('layouts.app')
+@section('title')
+Thông Tin Đơn hàng
+@endsection
 @section('content')
     <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-option">
+    {{-- <section class="breadcrumb-option">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -9,34 +12,37 @@
                         <h4>Đơn hàng của bạn</h4>
                         <div class="breadcrumb__links">
                             <a href="/">Trang chủ</a>
-                            {{-- <a href="{{ route('viewCart') }}">Giỏ hàng</a> --}}
                             <span>Đơn hàng</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
     <!-- Breadcrumb Section End -->
+    <div class="container my-5">
+        <div class="row">
+    @include('layouts.profileSideBar')
 
     <!-- List Order Section Begin -->
-    <section class="shopping-cart spad">
+    <section class="shopping-cart spad col" >
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="shopping__cart__table">
                         <table>
                             <thead>
-                                <tr>
+                                <tr class="text text-center">
                                     <th>STT</th>
                                     <th>Tổng giá trị</th>
                                     <th>Phương thức thanh toán</th>
                                     <th>Trạng thái đơn hàng</th>
                                     <th>Trạng thái thanh toán</th>
+                                    <th style="width: 12%">Thời gian</th>
                                     <th>Thao tác</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="text text-center">
                                 @php
                                     $stt = 1;
                                 @endphp
@@ -96,6 +102,9 @@
                                                 </p>
                                             </div>
                                         </td>
+                                        <td>
+                                            {{ $order->created_at }}
+                                        </td>
                                         <td class="product__cart__item">
                                             <div class="product__cart__item__text">
                                                 <a href="{{ route('detailOrder', $order->id) }}"><button type="button"
@@ -111,7 +120,6 @@
                                                             name="paymentMethod">
                                                         <button type="submit" class="primary-btn" name="redirect">Thanh
                                                             toán</button>
-                                                            {{-- / --}}
                                                     </form>
                                                 </div>
                                             @endif
@@ -120,10 +128,17 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="row">
+                            <div class="col-6 mx-auto">
+                              {{ $orders->links() }}
+                            </div>
+                          </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+</div>
+</div>
     <!-- List Order Section End -->
 @endsection

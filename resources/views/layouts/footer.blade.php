@@ -6,9 +6,9 @@
         <div class="col-lg-3 col-md-6 col-sm-6">
             <div class="footer__about">
                 <div class="footer__logo">
-                    <a href="#"><img src="{{ asset('storage/img/footer-logo.png') }}" alt=""></a>
+                    <a href="#"><img src="{{ asset('storage/img/real-logo.png') }}" alt=""></a>
                 </div>
-                <p>Chào thu 2024, nhập Voucher Zara2024 để được giảm ngay 150.000.
+                <p>Chào thu 2024, nhập Voucher PA2T để được giảm ngay 150.000.
                     </p>
                 <a href="#"><img src="{{ asset('storage/img/payment.png') }}" alt=""></a>
             </div>
@@ -57,7 +57,7 @@
                         document.write(new Date().getFullYear());
                     </script>
                     All rights reserved |  <i class="fa fa-heart-o"
-                    aria-hidden="true"></i> by <a href="" target="_blank">ZARA</a>
+                    aria-hidden="true"></i> by <a href="" target="_blank">PA2T</a>
                 </p>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             </div>

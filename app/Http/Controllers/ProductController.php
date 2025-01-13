@@ -18,19 +18,73 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = Product::withTrashed()->get();
-        // dd($products);
-        $images = Image::all();
-        $products->load(['size', 'category', 'brand']);
-        foreach($products as $product){
-            //Lấy ra ảnh đầu tiên làm ảnh đại diện cho sản phẩm
-            foreach($images as $image){
-                if($image->idProduct == $product->id){
-                    $product->image = $image;
-                    break;
-                }
+        $categories =Category::all();
+        $brands = Brand::all();
+        $query = Product::query()->with('size');
+        if ($request->category_id != null) {
+            $query->where('idCategory', $request->category_id);
             }
+        if ($request->brand_id != null) {
+            $query->where('idBrand', $request->brand_id);
+            }
+        // if ($request->size != null) {
+        //     $query->where({$request->size}, $request->category_id);
+        //     }
+        if ($request->has('name')) {
+            $query->where('name', 'like', '%' . $request->name . '%');
+            }
+        if ($request->filled('min_price') && $request->filled('max_price')) {
+            $column = 'priceSale';
+            if (!$query->whereNotNull($column)->exists()) {
+                $column = 'price';
+            }
+            $query->whereBetween($column, [$request->min_price, $request->max_price]);
+        }    
+        if ($request->has('created_at')) {
+            $query->where('created_at', 'like', '%' . $request->created_at .
+            '%');
+            }
+        
+        $products = $query->withTrashed()->orderByDesc('created_at')->get();
+        // dd($products);
+        foreach($products as $product){
 
+            
+            $product->number = $product->size->S + $product->size->M + $product->size->L + $product->size->XL + $product->size->XXL + $product->size->XXXL;
+            
+            $product->sizeShow = '';
+            if($product->size->S > 0){
+                $product->sizeShow .= ' S';
+            }
+            if($product->size->M > 0){
+                $product->sizeShow .= ' M';
+            }
+            if($product->size->L > 0){
+                $product->sizeShow .= ' L';
+            }
+            if($product->size->XL > 0){
+                $product->sizeShow .= ' XL';
+            }
+            if($product->size->XXL > 0){
+                $product->sizeShow .= ' XXL';
+            }
+            if($product->size->XXXL > 0){
+                $product->sizeShow .= ' XXXL';
+            }
+            
+        }
+        return view('admin.product.index', compact('products','categories','brands'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $brands = Brand::all();
+        $categories = Category::all();
+        return view('admin.product.create', compact('brands', 'categories'));
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -56,7 +110,7 @@ class ProductController extends Controller
         ],[
             'images.required' => 'The image field is required.'
         ]);
-        //thêm sản phẩm
+        
         $data = [
             'name' => $request->name,
             'price' => $request->price,
@@ -87,7 +141,7 @@ class ProductController extends Controller
             'XXXL' => $request->size3XL,
             'idProduct' => $idProduct,
         ]);
-        toastr()->success('Successfully', 'Added product');
+        toastr()->success('Successfully', 'Thêm sản phẩm thành công');
         return redirect()->route('product.index');
     }
     /**
@@ -109,7 +163,7 @@ class ProductController extends Controller
     }
 
     /**
-
+     * Update the specified resource in storage.
      */
     public function update(Request $request, Product $product)
     {
@@ -123,9 +177,7 @@ class ProductController extends Controller
             // Xóa ảnh cũ
             $images = Image::where('idProduct', $product->id)->get();
             foreach($images as $image){
-                //xóa trong storage
                 Storage::delete('public/images/products/'.$image->srcImage);
-                //xóa trong database
                 Image::where('id', $image->id)->delete();
             }
             //Thêm ảnh mới
@@ -154,7 +206,7 @@ class ProductController extends Controller
             'XXL' => $request->size2XL,
             'XXXL' => $request->size3XL,
         ]);
-        toastr()->success('Successfully', 'Updated product');
+        toastr()->success('Successfully', 'Cập nhật sản phẩm thành công');
         return redirect()->route('product.index');
     }
 
@@ -164,7 +216,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
-        toastr()->success('Successfully', 'Deleted product');
+        toastr()->success('Successfully', 'Xoá sản phẩm thành công');
         return redirect()->route('product.index');
     }
 
@@ -172,8 +224,7 @@ class ProductController extends Controller
         $product = Product::withTrashed()->where('id', $idProduct)->first();
         // dd($product);
         $product->restore();
-        toastr()->success('Successfully', 'Restored  product');
+        toastr()->success('Successfully', 'Đặt lại sản phẩm thành công');
         return redirect()->route('product.index');
     }
-    
 }

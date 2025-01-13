@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Image;
 use App\Models\Order;
+use App\Models\OrderAddress;
 use App\Models\Size;
 use App\Models\User;
 use App\Models\Voucher;
@@ -13,38 +14,54 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderSuccessfully;
+use App\Models\Address;
 use App\Models\Product;
+use App\Models\VoucherDetail;
 
 class OrderController extends Controller
 {
     public function discountCode(Request $request)
     {
-        //Check code nhập vào có tồn tại hay không
-        $voucher = Voucher::where('code', $request->code)->first();
+        $voucher_code = $request->code ?? $request->selectCode;
+
+        $voucher = Voucher::where('code', $voucher_code)->first();
         //nếu tồn tại
         if (!is_null($voucher)) {
-            //Check số lượng code còn hay không
+            //còn hay không
             if ($voucher->number > 0) {
-                //Check ngày bắt đầu và ngày kết thúc code 
-                $nowDay = Carbon::now();
-                if ($nowDay >= $voucher->dateStart && $nowDay < $voucher->dateEnd) {
+                $voucher_detail = VoucherDetail::where('idUser',Auth::id())->where('idVoucher',$voucher->id)->first();
+                if($voucher_detail !== null){
+                    //Check ngày bắt đầu và ngày kết thúc code 
+                    $nowDay = Carbon::now();
+                    if ($nowDay >= $voucher->dateStart && $nowDay < $voucher->dateEnd) {
                     
-                    $user = Auth::user();
-                    $carts = Cart::where('idUser', $user->id)->where('idOrder', null)->get();
-                    $carts->load('product');
-                    $totalBill = 0;
-                    foreach ($carts as $cart) {
-                        $totalBill += $cart->qty * $cart->product->priceSale;
+                        $user = Auth::user();
+                        $carts = Cart::where('idUser', $user->id)->where('idOrder', null)->get();
+                        $carts->load('product');
+                        $totalBill = 0;
+                        foreach ($carts as $cart) {
+                            $totalBill += $cart->qty * $cart->product->priceSale;
+                        }
+                        if($totalBill >= $voucher->value){
+                            $voucherList = Voucher::whereHas('voucher_detail', function ($query) {
+                                $query->where('idUser', Auth::id());
+                            })
+                            ->where('dateEnd','>', today())
+                            ->where('dateStart','<=', today())
+                            ->get();
+                            $addresses = Address::where('idUser', $user->id)->get();
+                            $request->session()->put('voucher_code', $voucher_code);
+                            return view('order.checkOut', compact('user', 'carts', 'voucher', 'totalBill','addresses','voucherList'));
+                        }else{
+                            return redirect()->route('checkOut')->with('error', 'Voucher chỉ dành cho giỏ hàng có tổng giá tiền trên '.$voucher->value);
+                        }
+                    } else {
+                        return redirect()->route('checkOut')->with('error', 'Mã đã hết hạn');
                     }
-                    if($totalBill >= $voucher->value){
-                        $request->session()->put('voucher_code', $request->code);
-                        return view('order.checkOut', compact('user', 'carts', 'voucher', 'totalBill'));
-                    }else{
-                        return redirect()->route('checkOut')->with('error', 'Voucher chỉ dành cho giỏ hàng có tổng giá tiền trên '.$voucher->value);
-                    }
-                } else {
-                    return redirect()->route('checkOut')->with('error', 'Mã đã hết hạn');
+                }else{
+                    return redirect()->route('checkOut')->with('error', 'Mã không thuộc quyền sở hữu của bạn');
                 }
+                
             } else {
                 return redirect()->route('checkOut')->with('error', 'Mã đã hết hạn');
             }
@@ -55,13 +72,25 @@ class OrderController extends Controller
     public function getFormCheckOut()
     {
         $user = Auth::user();
+        $addresses = Address::where('idUser', $user->id)->get();
         $carts = Cart::where('idUser', $user->id)->where('idOrder', null)->get();
         $carts->load('product');
         $totalBill = 0;
+        $voucherList = Voucher::whereHas('voucher_detail', function ($query) {
+            $query->where('idUser', Auth::id());
+        })
+        ->where('dateEnd','>', today())
+        ->where('dateStart','<=', today())
+        ->get();
         foreach ($carts as $cart) {
+            $product = Product::with('size')->findOrFail($cart->idProduct);
+            if($product->size->{$cart->size} < $cart->qty){
+                toastr()->error('Sản phẩm không đủ số lượng tồn kho','Error');
+                return redirect()->route('viewCart');
+            }
             $totalBill += $cart->qty * $cart->product->priceSale;
         }
-        return view('order.checkOut', compact('user', 'carts', 'totalBill'));
+        return view('order.checkOut', compact('user', 'carts', 'totalBill','addresses','voucherList'));
     }
     public function submitFormCheckOut(Request $request)
     {
@@ -76,18 +105,28 @@ class OrderController extends Controller
         if($request->paymentMethod == null){
             return redirect()->back()->with('error', 'Vui lòng chọn phương thức thanh toán');
         }
+        // if($request->address_id == null){
+        //     return redirect()->back()->with('error', 'Vui lòng chọn địa chỉ nhận hàng');
+        // }
         if ($request->orderId) {
             $order = Order::find($request->orderId);
             // dd($order);
         } else {
             $order = Order::create($data);
+            $address = Address::find($request->address_id);
+            $orderAddress = new OrderAddress();
+            $orderAddress->idOrder = $order->id;
+            $orderAddress->fullname = $address->fullname;
+            $orderAddress->phone = $address->phone;
+            $orderAddress->address = $address->address;
+            $orderAddress->address_type = $address->address_type;
+            $orderAddress->zip_code = $address->zip_code;
+            $orderAddress->save();
         }
         Cart::where('idOrder', null)->where('idUser', $order->idUser)->update([
             'idOrder' => $order->id
         ]);
-        // Trừ số lượng trong kho
 
-        //xử lý thanh toán với vnpay
         if ($request->paymentMethod == 0) {
             return redirect()->route('completePayment', ['payment' => 0, 'idOrder' => $order->id]);
         } else {
@@ -97,7 +136,7 @@ class OrderController extends Controller
             $vnp_HashSecret = "LQUKRDDKIULFZTMZTAZTRMTDUMPZMJKW"; //Chuỗi bí mật
 
             $vnp_TxnRef = $order->id;
-            $vnp_OrderInfo = Auth::user()->fullname . ' thanh toán.';
+            $vnp_OrderInfo = Auth::user()->fullname . ' thanh toán.'; //CHECK
             $vnp_OrderType = 'Thanh toán online';
             $vnp_Amount = $order->total  * 100;
             $vnp_Locale = 'vn';
@@ -159,14 +198,24 @@ class OrderController extends Controller
     }
     public function completePayment(Request $request)
     {
-
         if ($request->payment != null && $request->payment == 0) {
             $idOrder = $request->idOrder;
-            Order::where('id', $idOrder)->update(['pay' => 1]);
+            Order::where('id', $idOrder)->update(['pay' => 0]);
             $carts = Cart::where('idOrder', $idOrder)->get();
-            
+
+            $voucherCode = session('voucher_code');
+            if ($voucherCode) {
+                $voucher = Voucher::where('code', $voucherCode)->first();
+                if (!is_null($voucher) && $voucher->number > 0) {
+                    $voucher->update(['number' => $voucher->number - 1]);
+                }
+            }
             foreach ($carts as $cart) {
                 $product = Product::with('size')->findOrFail($cart->idProduct);
+                if($product->size->{$cart->size} < $cart->qty){
+                    toastr()->error('Sản phẩm không đủ số lượng tồn kho','Error');
+                    return redirect()->route('viewCart');
+                }
                 $product->size->{$cart->size} -= $cart->qty;
                 $product->size->save();
             }
@@ -178,22 +227,16 @@ class OrderController extends Controller
             $idOrder = $request->vnp_TxnRef;
             $voucherCode = session('voucher_code');
 
-            // Check if a voucher code was stored in the session
             if ($voucherCode) {
-                // Retrieve the voucher using the stored code
                 $voucher = Voucher::where('code', $voucherCode)->first();
-
-                // Check if the voucher exists and has remaining uses
                 if (!is_null($voucher) && $voucher->number > 0) {
-                    // Update the voucher's remaining uses
                     $voucher->update(['number' => $voucher->number - 1]);
                 }
             }
-            //cập nhật đã thanh toán cho đơn hàng
             Order::where('id', $idOrder)->update(['pay' => 1]);
             $bill = Order::Where('id', $idOrder)->first();
             $email = Auth::user()->email;
-            //giảm số lượng sản phẩm khi đã mua 
+
             $carts = Cart::where('idOrder', $idOrder)->get();
             $totalBill = 0;
             foreach ($carts as $cart) {
@@ -204,7 +247,7 @@ class OrderController extends Controller
                 $product->size->{$cart->size} -= $cart->qty;
                 $product->size->save();
             }
-            //gửi mail hóa đơn
+
             Mail::to($email)->send(new OrderSuccessfully($bill, $carts, $totalBill));
             return view('order.completePayment');
         }
@@ -213,10 +256,50 @@ class OrderController extends Controller
     }
     public function listOrder()
     {
-        $orders = Order::where('idUser', Auth::user()->id)->orderByDesc('created_at')->get();
+        $orders = Order::where('idUser', Auth::user()->id)->orderByDesc('created_at')->paginate(10);
         return view('order.listOrder', compact('orders'));
     }
-    
+    public function detailOrder($id)
+    {
+        $products = Cart::where('idOrder', $id)->with('product')->get();
+        $products->load(['product' => function ($query) {
+            $query->withTrashed(); 
+        }]);
+        foreach ($products as $cart) {
+            $cart->total = $cart->product->priceSale * $cart->qty;
+        }
+        $order = Order::findOrFail($id);
+        $user = User::where('id', $order->idUser)->first();
+        return view('order.detailOrder', compact('user', 'products', 'order'));
+    }
 
-    
+    public function updateStatusOrder($id){
+
+        $bill = Order::find($id);
+
+        if(in_array($bill->status,[3,4])){
+            toastr()->error('Đơn hàng không thể bị huỷ khi đã được vẫn chuyển', 'Updates order');
+        }else{
+            $bill->status = 6;
+            $bill->save();
+            $orderDetails = Cart::where('idOrder',$id)->get();
+            foreach($orderDetails as $orderDetail){
+                $product = Product::with('size')->findOrFail($orderDetail->idProduct);
+                $product->size->{$orderDetail->size} += $orderDetail->qty;
+                $product->size->save();
+            }
+        toastr()->success('Huỷ đơn thành công', 'Updates order');
+        
+        }
+        return redirect()->back();
+    }
+
+    public function orderSuccess($id)
+    {
+        $bill = Order::find($id);
+        $bill->pay = 1;
+        $bill->status = 4;
+        $bill->save();
+        return redirect()->back();
+    }
 }
